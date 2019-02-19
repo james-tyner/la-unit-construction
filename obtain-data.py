@@ -3,15 +3,16 @@ import json
 import sqlite3
 import datetime
 
-response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": "MWUKeodpGC6dfhr8200ZhXjss"})
+# response is capped at 40,000 records. Just need to change limit parameter to get more
+response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$limit=40000&$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": "MWUKeodpGC6dfhr8200ZhXjss"})
 
 jsonData = json.loads(response.text)
 
 database = sqlite3.connect("permit_data.db")
 cursor = database.cursor()
 
-# maybe you need to delete everything and write it again from scratch?
-# cursor.execute("DELETE FROM projects")
+# in case you need to delete everything and write it again from scratch
+# cursor.execute("DELETE FROM projects;")
 
 # for object in dataset
 for project in jsonData:
@@ -38,8 +39,6 @@ for project in jsonData:
     VALUES ('%s', '%s', '%s', '%s', '%s');""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"])
 
     cursor.execute(command)
-
-    print(project["zip_code"], project["of_residential_dwelling_units"] + " units")
 
 database.commit()
 database.close()
