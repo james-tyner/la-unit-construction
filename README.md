@@ -17,10 +17,9 @@
   * Make large, opaque datasets easier to understand for the public
 
 ## Buildout plan
-1. Every week, run a Python script to grab current data from city API and save/update two files
-	* First file will contain the stats you want for each ZIP code and a list of the projects in the previous week
-	* Second file will contain rankings and counts for ZIP codes for each year and all time
-	* Use JSON format to be readable by other languages
+1. Every week, run a Python script to grab current data from city API and save/update database tables
+	* First table will contain the stats you want for each ZIP code and a list of the projects in the previous week
+	* Second table will contain rankings and counts for ZIP codes for each year and all time
 
 2. Connect to other data sources, for example:
 	* Demographic data by ZIP code
