@@ -34,12 +34,12 @@ for ZIP in ZIPfile:
         # cursor has a list of tuples as the results... need to loop through that list of one item and grab index 0 -> for result in cursor: blah blah result[0]
         for result in cursor:
             if result[0] != None:
-                command = "UPDATE statistics SET %s = %s WHERE ZIP = %s;" % ("Units" + str(year), int(result[0]), ZIP)
+                command = "UPDATE attributes SET %s = %s WHERE ZIP = %s;" % ("Units" + str(year), int(result[0]), ZIP)
                 cursor.execute(command)
                 unitCounterHolder.append(result[0])
 
     totalUnits = int(sum(unitCounterHolder))
-    command = "UPDATE statistics SET UnitsAll = %s WHERE ZIP = %s;" % (totalUnits, ZIP)
+    command = "UPDATE attributes SET UnitsAll = %s WHERE ZIP = %s;" % (totalUnits, ZIP)
     cursor.execute(command)
 
 database.commit()

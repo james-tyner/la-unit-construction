@@ -20,12 +20,6 @@ for year in years:
     resultsFile.write("----------------------------\n")
     resultsFile.write("Year: " + str(year) + "\n\n")
 
-    # ZIP code with minimum
-    # command = """
-    #     SELECT ZIP, MIN(%s)
-    #     FROM statistics;
-    # """ % ("Units" + str(year))
-
     command = """
         SELECT ZIP, %s, MedIncome, Description
         FROM statistics
@@ -37,8 +31,6 @@ for year in years:
     for result in cursor:
         resultsFile.write("ZIP " + str(result[0]) + ", " + str(result[3]) + " \n")
         resultsFile.write("\t- Income: $" + str(result[2]) + "\n")
-        # resultsFile.write("\n")
-        # resultsFile.write("Min ZIP units: " + str(result[1]) + "\n\n")
 
     # ZIP code with maximum
     command = """
