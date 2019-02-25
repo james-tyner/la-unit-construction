@@ -5,11 +5,11 @@
 ### Next steps
 - [x] Connect to Socrata API
 - [x] Calculate residential construction totals by ZIP code and year
-- [ ] Pair ZIP code data with other statistics (demographics, economics, etc.)
+- [x] Pair ZIP code data with other statistics (demographics, economics, etc.)
 - [ ] Get expert opinions
 - [ ] Create website to view data for a given ZIP code in the city
-- [ ] Connect to SendGrid API
-- [ ] Format and send newsletters
+- [x] Connect to SendGrid API
+- [x] Format and send newsletters
 
 ## Project goals
   * Illustrate connection between demographic data/socioeconomic factors and the construction of housing in LA amid the city's housing crisis

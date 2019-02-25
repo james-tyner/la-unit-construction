@@ -3,7 +3,7 @@ import sqlite3
 connection = sqlite3.connect("permit_data.db")
 cursor = connection.cursor()
 
-# cursor.execute("DROP TABLE projects;")
+cursor.execute("DROP TABLE projects;")
 
 command = """
 CREATE TABLE projects (

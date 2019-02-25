@@ -2,3 +2,6 @@ tester.py
 .DS_STORE
 1031552_MasterZipCodes*
 factfinder-data
+node_modules
+permit_data.db
+.env

@@ -2,9 +2,10 @@ import requests
 import json
 import sqlite3
 import datetime
+import os
 
 # response is capped at 40,000 records. Just need to change limit parameter to get more
-response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$limit=40000&$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": "MWUKeodpGC6dfhr8200ZhXjss"})
+response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$limit=40000&$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
 
 jsonData = json.loads(response.text)
 
@@ -34,9 +35,32 @@ for project in jsonData:
     ogDate = project["status_date"]
     newDate = datetime.datetime.strptime(ogDate, '%Y-%m-%dT00:00:00.000').strftime('%Y-%m-%d')
 
+    if project.get("address_start"):
+        Number = project["address_start"]
+    else:
+        Number = ""
+
+    if project.get("street_direction"):
+        Direction = project["street_direction"]
+    else:
+        Direction = ""
+
+    if project.get("street_name"):
+        Street = project["street_name"]
+    else:
+        Street = ""
+
+    if project.get("street_suffix"):
+        Suffix = project["street_suffix"]
+    else:
+        Suffix = ""
+
+    Address = str(Number + " " + Direction + " " + Street + " " + Suffix)
+    Address = Address.strip()
+
     command = """
-    INSERT INTO projects (Type, Date, ZIP, Units, Stories)
-    VALUES ('%s', '%s', '%s', '%s', '%s');""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"])
+    INSERT INTO projects (Type, Date, ZIP, Units, Stories, Address)
+    VALUES ('%s', '%s', '%s', '%s', '%s', "%s");""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"], Address)
 
     cursor.execute(command)
 

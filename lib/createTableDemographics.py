@@ -12,6 +12,7 @@ CREATE TABLE demographics (
     ZIP int PRIMARY KEY,
     Population int,
     White int,
+    White_Non_Hispanic int,
     Black int,
     Native_American int,
     Asian int,
@@ -19,7 +20,9 @@ CREATE TABLE demographics (
     Other int,
     Two_Or_More int,
     Two_Or_More_Other int,
-    Two_Or_More_Not_Other int
+    Two_Or_More_Not_Other int,
+    Percent_White_Non_Hispanic int,
+    Percent_Minority int
 );"""
 
 cursor.execute(command)
@@ -34,6 +37,7 @@ for row in DemoReader:
     DemoDict[row["zip-code"]] = {
         "population":row["population"],
         "white":row["white-count"],
+        "white-non-hispanic":row["white-non-hispanic-count"],
         "black":row["black-count"],
         "native-american":row["native-american-count"],
         "asian":row["asian-count"],
@@ -47,6 +51,7 @@ for row in DemoReader:
 for ZIP in ZIPfile:
     Population = DemoDict[ZIP.strip()]["population"]
     White = DemoDict[ZIP.strip()]["white"]
+    White_Non_Hispanic = DemoDict[ZIP.strip()]["white-non-hispanic"]
     Black = DemoDict[ZIP.strip()]["black"]
     Native_American = DemoDict[ZIP.strip()]["native-american"]
     Asian = DemoDict[ZIP.strip()]["asian"]
@@ -55,8 +60,12 @@ for ZIP in ZIPfile:
     Two_Or_More = DemoDict[ZIP.strip()]["two_or_more"]
     Two_Or_More_Other = DemoDict[ZIP.strip()]["two_or_more_other"]
     Two_Or_More_Not_Other = DemoDict[ZIP.strip()]["two_or_more_not_other"]
+    Percent_White_Non_Hispanic = (float(White_Non_Hispanic) / float(Population)) * 100
+    Percent_White_Non_Hispanic = round(Percent_White_Non_Hispanic, 2)
+    Percent_Minority = float(100 - Percent_White_Non_Hispanic)
+    Percent_Minority = round(Percent_Minority, 2)
 
-    cursor.execute("INSERT INTO demographics (ZIP, Population, White, Black, Native_American, Asian, Hawaiian_Pacific, Other, Two_Or_More, Two_Or_More_Other, Two_Or_More_Not_Other) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);" % (ZIP, Population, White, Black, Native_American, Asian, Hawaiian_Pacific, Other, Two_Or_More, Two_Or_More_Other, Two_Or_More_Not_Other))
+    cursor.execute("INSERT INTO demographics (ZIP, Population, White, White_Non_Hispanic, Black, Native_American, Asian, Hawaiian_Pacific, Other, Two_Or_More, Two_Or_More_Other, Two_Or_More_Not_Other, Percent_White_Non_Hispanic, Percent_Minority) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);" % (ZIP, Population, White, White_Non_Hispanic, Black, Native_American, Asian, Hawaiian_Pacific, Other, Two_Or_More, Two_Or_More_Other, Two_Or_More_Not_Other, Percent_White_Non_Hispanic, Percent_Minority))
 
 DemoFile.close()
 ZIPfile.close()

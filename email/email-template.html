@@ -1,0 +1,143 @@
+<head>
+  <meta charset="utf-8">
+  <style>
+    @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:300,400,700');
+
+    * {
+      font-family:"Roboto Condensed", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+      text-align:center;
+    }
+
+    #main {
+      width:95vw;
+      max-width:650px;
+      margin:auto;
+    }
+
+    .new-section {
+      padding-top:1em;
+      border-top:1px solid #ccc;
+    }
+
+    #title {
+      display:inline-block;
+      color:white;
+      background-color:#754AED;
+      padding:0.2em;
+    }
+
+    h4 {
+      margin-bottom:0;
+    }
+
+    div {
+      margin-bottom:1em;
+    }
+
+    #zip-code {
+      margin-top:0;
+      font-size:2.5em;
+      margin-bottom:0;
+      color: #1B2C42;
+    }
+
+    #neighborhood-name {
+      font-size:1.8em;
+      margin-top:0;
+      font-weight:300;
+      color:#333;
+    }
+
+    .figure, #project-list-title {
+      margin-top:1.5em;
+      margin-bottom:0;
+    }
+
+    .descriptor {
+      font-weight:300;
+      margin-top:0;
+      color:#333;
+    }
+
+    #projects-box {
+      border-radius:0.7em;
+      width:85%;
+      margin:auto;
+      padding:0.5em 1em 0.5em 1em;
+      box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.24);
+    }
+
+    #projects-list-title {
+      margin-top:0;
+    }
+
+    .address {
+      font-weight:400;
+      margin-bottom:0;
+    }
+
+    .details {
+      color:#ccc;
+      font-size:0.7em;
+      font-weight:300;
+      margin-top:0;
+      margin-bottom:0.7em;
+    }
+
+    #produced {
+      margin-bottom:0.2em;
+    }
+
+    #units {
+      margin:0;
+    }
+
+    #of-housing {
+      margin-top:0.2em;
+    }
+
+    a {
+      text-decoration:none;
+      color: #1DCC70;
+      font-weight:bold;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="main">
+    <h3 id="title">Add it up.</h3> <span style="color:#754AED;">BETA</span>
+
+    <div>
+      <h4 class="new-section">This week in</h4>
+      <h1 id="zip-code">{{zip}}</h1>
+      <h2 id="neighborhood-name">{{neighborhood}}</h2>
+
+      <h2 class="figure">{{permits}}</h2>
+      <p class="descriptor">permits for new residential buildings</p>
+
+      <h2 class="figure">{{wkUnits}}</h2>
+      <p class="descriptor">total units of housing</p>
+    </div>
+
+    <div>
+      <h3 class="new-section" id="projects-list-title">Projects</h3>
+      {{#each projects}}
+        <p class="address">{{this.address}}</p>
+        {{#if this.unitCount}}
+          <p class="details">{{this.unitCount}} units</p>
+        {{/if}}
+      {{/each}}
+
+      <p><a href="#">View more</a></p>
+    </div>
+
+    <div>
+      <p id="produced" class="new-section">This ZIP code has produced</p>
+      <h2 class="units">{{YTDunits}} units</h2>
+      <p id="of-housing">of housing in 2019.</p>
+
+      <p><a href="#">View details on {{zip}}</a></p>
+    </div>
+  </div>
+</body>
