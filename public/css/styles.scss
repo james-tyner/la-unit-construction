@@ -17,6 +17,12 @@ h1, h2, h3, h4 {
     "Roboto", "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
 }
 
+a {
+  text-decoration:none;
+  color: #1DCC70;
+  font-weight:bold;
+}
+
 // MAIN STYLES
 body {
   margin:0;
@@ -30,6 +36,32 @@ header {
 main {
   width:95vw;
   margin-left:2.5vw;
+
+  #explainer {
+    padding-bottom:1em;
+    border-bottom:1px solid $gray;
+    margin-bottom:1em;
+  }
+
+  form {
+    div {
+      display:grid;
+      grid-template-columns:3;
+      width:40%;
+
+      label {
+        font-weight:bold;
+        grid-column-start:1;
+        width:30px;
+      }
+
+      input {
+        grid-column-start:2;
+      }
+
+      margin-bottom:0.8em;
+    }
+  }
 }
 
 h1 {
@@ -45,6 +77,17 @@ h1 {
     background-color:$purple;
     padding:0.2em;
   }
+}
+
+#beta {
+  color:$purple;
+  padding:0.2em;
+  font-size:0.5em;
+}
+
+footer {
+  position:absolute;
+  bottom:1.5em;
 }
 
 

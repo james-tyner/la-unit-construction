@@ -5,3 +5,5 @@ factfinder-data
 node_modules
 permit_data.db
 .env
+email.db
+futureIndex.html

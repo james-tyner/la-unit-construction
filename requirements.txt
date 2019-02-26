@@ -1,8 +1,0 @@
-APScheduler==3.5.3
-sqlite3
-csv
-requests==2.21.0
-json
-datetime
-os
-sendgrid==5.6.0
