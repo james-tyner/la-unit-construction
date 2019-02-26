@@ -1,0 +1,7 @@
+sqlite3
+csv
+requests
+json
+datetime
+os
+sendgrid
