@@ -7,3 +7,4 @@ permit_data.db
 .env
 email.db
 futureIndex.html
+encryption/*

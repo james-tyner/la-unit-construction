@@ -6,6 +6,11 @@ let app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded());
 
+var fs = require('fs');
+var key = fs.readFileSync('encryption/private.key');
+var cert = fs.readFileSync( 'encryption/certificate.crt' );
+var https = require('https');
+
 require('dotenv').load();
 
 app.use(express.static("public"));
@@ -167,5 +172,7 @@ app.post('/email/subscribe', function(request, response){
   response.redirect("../subscribe-success.html");
 });
 
+https.createServer({key: key, cert: cert}, app).listen(443);
 
-app.listen(80);
+var http = require('http');
+http.createServer(app).listen(80);
