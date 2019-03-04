@@ -8,3 +8,4 @@ permit_data.db
 email.db
 futureIndex.html
 encryption/*
+runSendEmail*

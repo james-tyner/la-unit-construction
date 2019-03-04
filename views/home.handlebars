@@ -36,8 +36,7 @@
       </nav>
 
       <section>
-        <small></small>
-        <form action="email/subscribe" method="post">
+        <form action="../email/subscribe" method="post">
           <div class="form-row">
             <label for="email">Email</label><br>
               <input type="text" id="email" name="email">
@@ -46,6 +45,11 @@
             <label for="autocomplete">ZIP</label><br>
               <input type="text" id="autocomplete" name="zip">
           </div>
+          {{# if errors }}
+            {{# each errors }}
+              <small style="color:red;">{{ this.msg }}</small><br>
+            {{/each}}
+          {{/if}}
           <button type="submit">Submit</button>
         </form>
 

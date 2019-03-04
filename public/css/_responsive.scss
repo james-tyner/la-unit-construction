@@ -1,0 +1,35 @@
+body {
+  min-width:300px;
+}
+
+@media only screen and (max-width:844px){
+  main {
+    width:46vw;
+  }
+
+  #sample-email {
+    width:46vw;
+  }
+}
+
+@media only screen and (max-width:610px){
+    main {
+      width:92vw;
+      padding:4vw;
+      position:relative;
+      left:auto;
+      top:0;
+
+      #view-sample {
+        display:block;
+      }
+    }
+
+    #sample-email {
+      width:92vw;
+      padding:4vw;
+      position:relative;
+      right:auto;
+      top:4em;
+    }
+}
