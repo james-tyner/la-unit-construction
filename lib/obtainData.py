@@ -58,9 +58,14 @@ for project in jsonData:
     Address = str(Number + " " + Direction + " " + Street + " " + Suffix)
     Address = Address.strip()
 
+    if project.get("location_1"):
+        Coordinates = project["location_1"]
+    else:
+        Coordinates = ""
+
     command = """
-    INSERT INTO projects (Type, Date, ZIP, Units, Stories, Address)
-    VALUES ('%s', '%s', '%s', '%s', '%s', "%s");""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"], Address)
+    INSERT INTO projects (Type, Date, ZIP, Units, Stories, Address, LatLong)
+    VALUES ('%s', '%s', '%s', '%s', '%s', "%s", "%s");""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"], Address, Coordinates)
 
     cursor.execute(command)
 

@@ -24,6 +24,14 @@ app.get('/', function (req, res) {
     res.render('home', {layout: false});
 });
 
+app.get('/d3', function(req, res){
+  res.render('newHome', {layout: false});
+});
+
+app.get("/info/:zip", function(req, res){
+  res.redirect(`../info.html?zip=${req.params.zip}`);
+});
+
 app.use(express.static("public"));
 
 axios.interceptors.request.use(request => {
@@ -129,21 +137,54 @@ app.get('/api/neighborhoods/:zip', function(request, response){
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
 app.get('/api/projects/:zip', function(req, res){
-  axios.get('/resource/75vw-v4fk.json', {
-    baseURL: 'https://data.lacity.org',
-    headers: {"X-App-Token": process.env.SOCRATA_API_KEY},
-    params: {
-      $limit:50,
-      $offset:(req.query.page || 0),
-      $order:"issue_date DESC",
-      $where:`permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial') AND zip_code = ${req.params.zip} AND ${lastWeek}`
+  // axios.get('/resource/75vw-v4fk.json', {
+  //   baseURL: 'https://data.lacity.org',
+  //   headers: {"X-App-Token": process.env.SOCRATA_API_KEY},
+  //   params: {
+  //     $limit:50,
+  //     $offset:(req.query.page || 0),
+  //     $order:"issue_date DESC",
+  //     $where:`permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial') AND zip_code = ${req.params.zip} AND ${lastWeek}`
+  //   }
+  // })
+  // .then(function (response) {
+  //   res.send(response.data);
+  // })
+  // .catch(function (error) {
+  //   console.log(error);
+  // });
+
+  let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
+    if (err) {
+      return console.error(err.message);
     }
-  })
-  .then(function (response) {
-    res.send(response.data);
-  })
-  .catch(function (error) {
-    console.log(error);
+  });
+
+  let sql = `SELECT * FROM projects WHERE ZIP = ${req.params.zip} ORDER BY Date DESC`;
+
+  db.all(sql,[],(err, rows) => {
+    if (err) {
+      throw err;
+    }
+    projectsHolder = [];
+    rows.forEach((row) => {
+      projectsHolder.push({
+        "zip-code":row.ZIP,
+        "date":row.Date,
+        "type":row.Type,
+        "address":row.Address,
+        "units":row.Units,
+        "stories":row.Stories
+      });
+    });
+
+    res.json(projectsHolder);
+  });
+
+  db.close((err) => {
+    if (err) {
+      return console.error(err.message);
+    }
   });
 });
 

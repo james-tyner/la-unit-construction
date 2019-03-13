@@ -9,3 +9,5 @@ email.db
 futureIndex.html
 encryption/*
 runSendEmail*
+geojson/*
+*.pyc
