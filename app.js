@@ -134,6 +134,14 @@ app.get('/api/neighborhoods/:zip', function(request, response){
 });
 
 
+// Use for maps
+// Need to add the same 50 at a time logic as the projects list
+app.get("/api/neighborhoods/:zip/geojson", function(request, response){
+  let zipGeo = fs.readFileSync(`geojson/${request.params.zip}.geojson`);
+  return response.json(JSON.parse(zipGeo));
+})
+
+
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
 app.get('/api/projects/:zip', function(req, res){

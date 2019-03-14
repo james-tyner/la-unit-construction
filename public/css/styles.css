@@ -209,10 +209,6 @@ footer small:last-of-type {
 	padding-bottom: 2em;
 }
 
-[v-cloak] {
-	display: none;
-}
-
 #information {
 	display: grid;
 	grid-template-columns: 30% 70%;

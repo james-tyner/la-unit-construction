@@ -29,7 +29,14 @@ for ZIP in ZIPfile:
                 "coordinates":GeoCoordinates
             }
 
-            newFeature = geojson.Feature(geometry=Geometry, properties={"date":result[0], "units":result[2], "address":result[3],"zip":result[1]})
+            if result[2] in ("", None, "null"):
+                Units = 0
+                Icon = "village"
+            else:
+                Units = result[2]
+                Icon = Units
+
+            newFeature = geojson.Feature(geometry=Geometry, properties={"date":result[0], "units":Units, "address":result[3],"zip":result[1],"marker-color":"#754aed","marker-symbol":Icon,"marker-size":"small"})
             allZIPPoints.append(newFeature)
 
     here = os.path.dirname(os.path.realpath(__file__))
