@@ -64,10 +64,10 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
       projectsLayer.on('layeradd', function(e) {
         var marker = e.layer,
           feature = marker.feature;
-        var content = '<p><strong>' + feature.properties.address + '</strong></p><p>' + feature.properties.units + ' units</p><p>' + feature.properties.date + '</p>';
+        var content = ('<p><strong>' + feature.properties.address + '</strong></p><p>') + (feature.properties.units == 0 ? "Unit count unavailable" : (feature.properties.units + " units")) + ('</p><p>' + feature.properties.date + '</p>');
         marker.bindPopup(content);
       });
-      
+
       projectsLayer.setGeoJSON(results.data);
 
       projectsLayer.on('click', function(e) {

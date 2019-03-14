@@ -32,11 +32,17 @@ for ZIP in ZIPfile:
             if result[2] in ("", None, "null"):
                 Units = 0
                 Icon = "village"
+                Color = "#754aed" # purple
+            elif result[2] >= 100:
+                Units = result[2]
+                Icon = "star"
+                Color = "#1dcc70" # green
             else:
                 Units = result[2]
                 Icon = Units
+                Color = "#754aed" # purple
 
-            newFeature = geojson.Feature(geometry=Geometry, properties={"date":result[0], "units":Units, "address":result[3],"zip":result[1],"marker-color":"#754aed","marker-symbol":Icon,"marker-size":"small"})
+            newFeature = geojson.Feature(geometry=Geometry, properties={"date":result[0], "units":Units, "address":result[3],"zip":result[1],"marker-color":Color,"marker-symbol":Icon,"marker-size":"small"})
             allZIPPoints.append(newFeature)
 
     here = os.path.dirname(os.path.realpath(__file__))
