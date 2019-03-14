@@ -13,6 +13,8 @@
     <script src='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'></script>
     <link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
 
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+
     <!-- MY STYLESHEETS -->
     <link rel="stylesheet" href="css/styles.min.css">
     <link rel="stylesheet" href="../css/styles.min.css">
@@ -28,34 +30,34 @@
     </script>
   </head>
   <body>
-    <header style="border:none;">
-
+    <header id="info-nav" style="border:none;">
+      <h1 id="nav-title"><span id="title-emphasis">Add it up.</span> <span id="beta">BETA</span></h1>
+      <!-- <input type="text" id="search" placeholder="Find a ZIP code or neighborhood"> -->
     </header>
 
     <main>
-      <nav>
-        <input type="text" id="search" placeholder="Find a ZIP code or neighborhood">
-
-      </nav>
-
       <section id="information" v-cloak>
         <div id="info-header">
           <h1>{{zipCode}}</h1>
-          <h2>{{info.description}}</h2>
-          <h2>{{info.units.units2019 | zeroIfNull}} units approved in 2019</h2>
+          <h2 class="zip-desc">{{info.description}}</h2>
+          <h2 class="zip-units-all">{{info.units.unitsAll | zeroIfNull | commaSeparated}} units approved since 2013</h2>
+          <p class="zip-units-ytd">{{info.units.units2019 | zeroIfNull | commaSeparated}} units in 2019</p>
         </div>
         <div id="demographics">
           <div class="population">
-            Population
             <h3>{{info.demographics.population | commaSeparated}}</h3>
+            <p class="demo-desc">population</p>
           </div>
           <div class="minority">
-            {{info.demographics.percentMinority}}% minority
+            <h3>{{info.demographics.percentMinority}}%</h3>
+            <p class="demo-desc">minority</p>
           </div>
           <div class="costs">
-            <h3>{{info.costs.percentage}}%</h3> of income spent on housing
-            Median income: ${{info.costs.medianIncome | commaSeparated}}
-            Median housing cost: ${{info.costs.medianHousingCost | commaSeparated}} monthly
+            <h3>{{info.costs.percentage}}%</h3>
+            <p class="demo-desc">of income spent on housing</p>
+            <p class="income-desc">Median income: ${{info.costs.medianIncome | commaSeparated}}</p>
+            <p class=
+            "income-desc">Median housing cost: ${{info.costs.medianHousingCost | commaSeparated}} monthly</p>
           </div>
 
         </div>
@@ -63,12 +65,23 @@
           <div id='map'></div>
         </div>
         <div id="projects-list">
-          <div class="indiv-project" v-for="project in projects">
-            <p class="project-date">{{project.date}}</p>
-            <p class="project-address">{{project.address}}</p>
-            <p v-if="project.units != 'null'" class="project-units">{{project.units}} units</p>
-            <p v-if="project.stories != 'null'" class="project-stories">{{project.stories}}-story building</p>
-          </div>
+          <h2>All Projects</h2>
+          <table>
+            <thead class="indiv-project header">
+              <th class="project-date">Date</th>
+              <th class="project-address">Address</th>
+              <th class="project-units">Units</th>
+              <th class="project-stories">Stories</th>
+            </thead>
+            <tbody>
+              <tr class="indiv-project" v-for="project in projects">
+                <td class="project-date">{{project.date | humanDate}}</td>
+                <td class="project-address">{{project.address}}</td>
+                <td class="project-units">{{project.units | zeroIfNull | pluralizeUnits}}</td>
+                <td v-if="project.stories != 'null'" class="project-stories">{{project.stories | pluralizeStories}}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
       </section>
@@ -80,10 +93,16 @@
       </footer>
     </main>
 
+    <!-- Plugins -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.3/vue.min.js"></script>
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+    <!-- Site scripts -->
     <script src="js/scripts.js"></script>
+    <script src="js/info-scripts.js"></script>
   </body>
 </html>

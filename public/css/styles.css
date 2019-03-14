@@ -209,6 +209,43 @@ footer small:last-of-type {
 	padding-bottom: 2em;
 }
 
+#info-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	background-color: #1B2C42;
+}
+
+#info-nav #nav-title {
+	font-size: 2.2em;
+	margin: 0;
+}
+
+#info-nav #nav-title #beta {
+	color: white;
+}
+
+#info-nav #search {
+	width: 50%;
+	padding: 0.5em;
+	margin-right: 3em;
+	margin-left: auto;
+	border-radius: 8px;
+	border-width: 0;
+	font-size: 0.9em;
+	box-sizing: border-box;
+}
+
+#info-nav #search[placeholder] {
+	font-style: italic;
+}
+
+#info-nav #search:focus {
+	border-width: 2px;
+	border-color: #1DCC70;
+}
+
 #information {
 	display: grid;
 	grid-template-columns: 30% 70%;
@@ -216,11 +253,39 @@ footer small:last-of-type {
 	margin: auto;
 }
 
+#information[v-cloak] {
+	display: none;
+}
+
 #information #info-header {
 	grid-column-start: 1;
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 2;
+	position: sticky;
+}
+
+#information #info-header h1 {
+	font-size: 3em;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+#information #info-header .zip-desc {
+	margin-top: 0;
+	color: #00ADFF;
+}
+
+#information #info-header .zip-units-all {
+	margin: 0;
+	padding-top: 1em;
+	border-top: 1px solid #ddd;
+}
+
+#information #info-header .zip-units-ytd {
+	margin: 0;
+	margin-top: 0.4em;
+	padding-bottom: 1.5em;
 }
 
 #information #demographics {
@@ -230,10 +295,32 @@ footer small:last-of-type {
 	grid-row-end: 3;
 }
 
+#information #demographics .population, #information #demographics .minority, #information #demographics .costs {
+	padding-top: 1em;
+	padding-bottom: 1em;
+	border-top: 1px solid #ddd;
+}
+
+#information #demographics h3 {
+	margin: 0;
+}
+
+#information #demographics .demo-desc {
+	color: #444;
+	margin: 0.2em 0;
+}
+
+#information #demographics .income-desc {
+	color: #444;
+	font-size: 0.8em;
+	margin: 0;
+	margin-top: 0.5em;
+}
+
 #information #map-container {
 	grid-column-start: 2;
 	grid-column-end: 3;
-	grid-row-start: 2;
+	grid-row-start: 1;
 	grid-row-end: 3;
 }
 
@@ -251,8 +338,33 @@ footer small:last-of-type {
 	grid-row-end: 4;
 }
 
+#information #projects-list h2 {
+	margin: 0.5em 0;
+}
+
+#information #projects-list table {
+	width: 100%;
+}
+
+#information #projects-list table .indiv-project th {
+	font-weight: bold;
+	text-align: left;
+}
+
+#information #projects-list table .indiv-project td {
+	padding: 0.8em 0;
+	margin: 0;
+	border-top: 1px solid #ddd;
+}
+
 body {
 	min-width: 300px;
+}
+
+@media only screen and (max-width: 1093px) {
+	#information {
+		grid-template-columns: 45% 55%;
+	}
 }
 
 @media only screen and (max-width: 844px) {
@@ -261,6 +373,34 @@ body {
 	}
 	#sample-email {
 		width: 46vw;
+	}
+	#information #projects-list {
+		grid-column-start: 1;
+	}
+}
+
+@media only screen and (max-width: 715px) {
+	#information {
+		grid-template-columns: 100%;
+	}
+	#information #info-header {
+		grid-row-end: 2;
+	}
+	#information #map-container {
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 2;
+		grid-row-end: 3;
+	}
+	#information #demographics {
+		grid-row-start: 3;
+		grid-row-end: 4;
+	}
+	#information #projects-list {
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 4;
+		grid-row-end: 5;
 	}
 }
 
@@ -281,5 +421,11 @@ body {
 		position: relative;
 		right: auto;
 		top: 4em;
+	}
+}
+
+@media only screen and (max-width: 487px) {
+	#information #projects-list {
+		display: none;
 	}
 }

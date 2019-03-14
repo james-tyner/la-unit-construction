@@ -1,14 +1,79 @@
+#info-nav {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  background-color:$gray;
+
+  #nav-title {
+    font-size:2.2em;
+    margin:0;
+
+    #beta {
+      color:white;
+    }
+  }
+
+  #search {
+    width:50%;
+    padding:0.5em;
+    margin-right:3em;
+    margin-left:auto;
+    border-radius:8px;
+    border-width:0;
+    font-size:0.9em;
+    box-sizing:border-box;
+
+    &[placeholder] {
+      font-style:italic;
+    }
+
+    &:focus {
+      border-width:2px;
+      border-color:$green;
+    }
+  }
+}
+
 #information {
   display:grid;
   grid-template-columns:30% 70%;
   width:95vw;
   margin:auto;
 
+  &[v-cloak]{
+    display:none;
+  }
+
   #info-header {
     grid-column-start:1;
     grid-column-end:3;
     grid-row-start:1;
     grid-row-end:2;
+    position:sticky;
+
+    h1 {
+      font-size:3em;
+      margin-top:0;
+      margin-bottom:0;
+    }
+
+    .zip-desc {
+      margin-top:0;
+      color:$blue;
+    }
+
+    .zip-units-all {
+      margin:0;
+      padding-top:1em;
+      border-top:1px solid #ddd;
+    }
+
+    .zip-units-ytd {
+      margin:0;
+      margin-top:0.4em;
+      padding-bottom:1.5em;
+    }
   }
 
   #demographics {
@@ -16,12 +81,34 @@
     grid-column-end:2;
     grid-row-start:2;
     grid-row-end:3;
+
+    .population, .minority, .costs {
+      padding-top:1em;
+      padding-bottom:1em;
+      border-top:1px solid #ddd;
+    }
+
+    h3 {
+      margin:0;
+    }
+
+    .demo-desc {
+      color:#444;
+      margin:0.2em 0;
+    }
+
+    .income-desc {
+      color:#444;
+      font-size:0.8em;
+      margin:0;
+      margin-top:0.5em;
+    }
   }
 
   #map-container {
     grid-column-start:2;
     grid-column-end:3;
-    grid-row-start:2;
+    grid-row-start:1;
     grid-row-end:3;
 
     #map {
@@ -37,5 +124,27 @@
     grid-column-end:3;
     grid-row-start:3;
     grid-row-end:4;
+
+    h2 {
+      margin:0.5em 0;
+    }
+
+    table {
+      width:100%;
+
+      .indiv-project {
+
+        th {
+          font-weight:bold;
+          text-align:left;
+        }
+
+        td {
+          padding:0.8em 0;
+          margin:0;
+          border-top:1px solid #ddd;
+        }
+      }
+    }
   }
 }

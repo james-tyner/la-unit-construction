@@ -2,6 +2,12 @@ body {
   min-width:300px;
 }
 
+@media only screen and (max-width:1093px){
+  #information {
+    grid-template-columns:45% 55%;
+  }
+}
+
 @media only screen and (max-width:844px){
   main {
     width:46vw;
@@ -9,6 +15,41 @@ body {
 
   #sample-email {
     width:46vw;
+  }
+
+  #information {
+    #projects-list {
+      grid-column-start:1;
+    }
+  }
+}
+
+@media only screen and (max-width:715px){
+  #information {
+    grid-template-columns:100%;
+
+    #info-header {
+      grid-row-end:2;
+    }
+
+    #map-container {
+      grid-column-start:1;
+      grid-column-end:2;
+      grid-row-start:2;
+      grid-row-end:3;
+    }
+
+    #demographics {
+      grid-row-start:3;
+      grid-row-end:4;
+    }
+
+    #projects-list {
+      grid-column-start:1;
+      grid-column-end:2;
+      grid-row-start:4;
+      grid-row-end:5;
+    }
   }
 }
 
@@ -32,4 +73,12 @@ body {
       right:auto;
       top:4em;
     }
+}
+
+@media only screen and (max-width:487px){
+  #information {
+    #projects-list {
+      display:none;
+    }
+  }
 }
