@@ -7,7 +7,7 @@
 - [x] Calculate residential construction totals by ZIP code and year
 - [x] Pair ZIP code data with other statistics (demographics, economics, etc.)
 - [ ] Get expert opinions
-- [ ] Create website to view data for a given ZIP code in the city
+- [x] Create website to view data for a given ZIP code in the city
 - [x] Connect to SendGrid API
 - [x] Format and send newsletters
 
