@@ -16,20 +16,26 @@
   * Determine whether targeted policies to promote housing construction are having a positive effect
   * Make large, opaque datasets easier to understand for the public
 
-## Buildout plan
-1. Every week, run a Python script to grab current data from city API and save/update database tables
-	* First table will contain the stats you want for each ZIP code and a list of the projects in the previous week
-	* Second table will contain rankings and counts for ZIP codes for each year and all time
+## How it’s built
+1. Every week, a Python program grabs current data from the [LA city Socrata API](https://dev.socrata.com/foundry/data.lacity.org/75vw-v4fk) and saves/updates a database
+	* One table contains calculated statistics for each ZIP code
+	* Another table contains a list of all the projects
 
-2. Connect to other data sources, for example:
-	* Demographic data by ZIP code
-	* Rental cost data by ZIP code
-	* A table of ZIP codes and rough neighborhood names
+2. After obtaining the data, a Python program loops through all ZIP codes and generates a .geojson file for each one and all its projects. This will be used later to generate dynamic maps
 
-3. Base PHP will grab data from the file on the server as long as it is there and display it on a webpage
+3. A one-time Python program calculated demographics and housing cost data for each ZIP code using 2017 American Communities Survey data from the US Census Bureau and stored them in a database
+	* Another script connected ZIP codes to neighborhood names and associated them with this database using a report from LA County
+	
+4. A Node.js & Express application serves as the backend for the [website](https://additup.jamestyner.com)
+	* Handles user subscriptions to the newsletter and validation of emails and ZIP codes (only LA city ZIPs allowed)
+	* Handles page routing and providing dynamic information (such as validation errors) to the page
+	* Provides endpoints to read data for certain ZIP codes from the database
 
-4. Separately, every week, run PHP to create a newsletter and send it to SendGrid
-	* Before running that script, verify that last modified date of the file is the same as today’s date (may need Python to just write the date when it runs to edit the file)
+5. Each week, after the data is obtained, another recurring Python script grabs relevant data and the projects approved in the past week. It compiles this into template data that is submitted to SendGrid and sent using a dynamic transactional template
+
+6. A [page with information for each ZIP code](https://additup.jamestyner.com/info.html?zip=90007) is built using [VueJS](https://vuejs.org/) and [Mapbox.js](https://docs.mapbox.com/mapbox.js/api/v3.2.0/): 
+	* Project geographic data is obtained using [axios](https://github.com/axios/axios), Express, and the .geojson files generated earlier, then displayed through Mapbox
+	* VueJS uses the Node endpoints to obtain, filter, and display demographic data and a project list
 
 ## Sources
   * LA City open data portal
