@@ -65,6 +65,17 @@
         </div>
         <div id="map-container">
           <div id='map'></div>
+          <div id="year-selector">
+            <div class="instructions">Filter:</div>
+            <div class="yearReset active" v-on:click="selectedYear = ''">All</div>
+            <div class="year" v-on:click="selectedYear = '2019'">2019</div>
+            <div class="year" v-on:click="selectedYear = '2018'">2018</div>
+            <div class="year" v-on:click="selectedYear = '2017'">2017</div>
+            <div class="year" v-on:click="selectedYear = '2016'">2016</div>
+            <div class="year" v-on:click="selectedYear = '2015'">2015</div>
+            <div class="year" v-on:click="selectedYear = '2014'">2014</div>
+            <div class="year" v-on:click="selectedYear = '2019'">2013</div>
+          </div>
         </div>
         <div id="projects-list">
           <h2>All Projects</h2>
@@ -76,7 +87,7 @@
               <th class="project-stories">Stories</th>
             </thead>
             <tbody>
-              <tr class="indiv-project" v-for="project in projects">
+              <tr class="indiv-project" v-for="project in yearFiltered">
                 <td class="project-date">{{project.date | humanDate}}</td>
                 <td class="project-address">{{project.address}}</td>
                 <td class="project-units">{{project.units | zeroIfNull | pluralizeUnits}}</td>

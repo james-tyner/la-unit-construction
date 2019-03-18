@@ -331,9 +331,43 @@ footer small:last-of-type {
 
 #information #map-container #map {
 	width: 100%;
-	height: 100%;
+	height: 95%;
 	min-height: 450px;
 	min-width: 350px;
+}
+
+#information #map-container #year-selector {
+	height: 5%;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+}
+
+#information #map-container #year-selector .instructions {
+	text-align: left;
+	padding: 0.5em;
+}
+
+#information #map-container #year-selector .year {
+	text-align: center;
+	padding: 0.5em;
+	cursor: pointer;
+}
+
+#information #map-container #year-selector .year:hover, #information #map-container #year-selector .year.active {
+	font-weight: bold;
+	color: #00ADFF;
+}
+
+#information #map-container #year-selector .yearReset {
+	text-align: center;
+	padding: 0.5em;
+	cursor: pointer;
+}
+
+#information #map-container #year-selector .yearReset:hover, #information #map-container #year-selector .yearReset.active {
+	font-weight: bold;
+	color: #00ADFF;
 }
 
 #information #projects-list {

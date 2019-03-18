@@ -39,9 +39,15 @@ axios.all([getZIPCodeInfo(), getZIPCodeProjects()]).then(axios.spread(function(i
     data: {
       zipCode:requestedZip,
       info:information.data[0],
-      projects:projects.data
+      projects:projects.data,
+      selectedYear:""
     },
     el:"#information",
+    computed: {
+      yearFiltered() {
+        return this.projects.filter((project) => project.date.toString().startsWith(this.selectedYear))
+      }
+    },
     filters: {
       commaSeparated:function(val){
         while (/(\d+)(\d{3})/.test(val.toString())){
@@ -123,9 +129,24 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
       });
 
       map.fitBounds(projectsLayer.getBounds());
+
+      $("#year-selector .year").on("click", function(){
+        let newYear = this.innerHTML;
+        projectsLayer.setFilter(function(f) {
+            return f.properties.date.toString().startsWith(newYear);
+        });
+        $("#year-selector .year").removeClass("active");
+        $("#year-selector .yearReset").removeClass("active");
+        $(this).addClass("active");
+      });
+
+      $("#year-selector .yearReset").on("click", function(){
+        projectsLayer.setFilter(function(f){
+          return true;
+        });
+        $("#year-selector .year").removeClass("active");
+        $(this).addClass("active");
+      });
     });
   });
 });
-
-// Need code to filter by year
-// https://docs.mapbox.com/mapbox.js/example/v1.0.0/filtering-markers/
