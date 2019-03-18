@@ -32,7 +32,9 @@
   <body>
     <header id="info-nav" style="border:none;">
       <h1 id="nav-title"><span id="title-emphasis">Add it up.</span> <span id="beta">BETA</span></h1>
-      <!-- <input type="text" id="search" placeholder="Find a ZIP code or neighborhood"> -->
+      <form id="search" action="/info/search" method="post">
+        <input type="text" id="zip" name="zip" placeholder="Find a ZIP code or neighborhood">
+      </form>
     </header>
 
     <main>

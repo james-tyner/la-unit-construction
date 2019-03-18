@@ -16,21 +16,26 @@
 
   #search {
     width:50%;
-    padding:0.5em;
     margin-right:3em;
     margin-left:auto;
-    border-radius:8px;
-    border-width:0;
-    font-size:0.9em;
-    box-sizing:border-box;
 
-    &[placeholder] {
-      font-style:italic;
-    }
-
-    &:focus {
+    input[type="text"]{
+      padding:0.5em;
+      width:100%;
+      border-radius:8px;
       border-width:2px;
-      border-color:$green;
+      border-style:solid;
+      border-color:$purple;
+      font-size:0.9em;
+      box-sizing:border-box;
+
+      &::placeholder {
+        font-style:italic;
+      }
+
+      &:focus {
+        border-color:$green;
+      }
     }
   }
 }

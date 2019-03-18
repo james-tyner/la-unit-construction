@@ -228,21 +228,26 @@ footer small:last-of-type {
 
 #info-nav #search {
 	width: 50%;
-	padding: 0.5em;
 	margin-right: 3em;
 	margin-left: auto;
+}
+
+#info-nav #search input[type="text"] {
+	padding: 0.5em;
+	width: 100%;
 	border-radius: 8px;
-	border-width: 0;
+	border-width: 2px;
+	border-style: solid;
+	border-color: #754AED;
 	font-size: 0.9em;
 	box-sizing: border-box;
 }
 
-#info-nav #search[placeholder] {
+#info-nav #search input[type="text"]::placeholder {
 	font-style: italic;
 }
 
-#info-nav #search:focus {
-	border-width: 2px;
+#info-nav #search input[type="text"]:focus {
 	border-color: #1DCC70;
 }
 

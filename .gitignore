@@ -11,3 +11,4 @@ encryption/*
 runSendEmail*
 geojson/*
 *.pyc
+runForceProgramTest*
