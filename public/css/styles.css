@@ -341,6 +341,7 @@ footer small:last-of-type {
 	display: flex;
 	flex-wrap: nowrap;
 	justify-content: space-between;
+	color: #5184c6;
 }
 
 #information #map-container #year-selector .instructions {
@@ -416,6 +417,15 @@ body {
 	#information #projects-list {
 		grid-column-start: 1;
 	}
+	#information #map-container #year-selector {
+		flex-wrap: wrap;
+	}
+	#information #map-container #year-selector .instructions {
+		display: none;
+	}
+	#info-nav #search {
+		margin-right: 0;
+	}
 }
 
 @media only screen and (max-width: 715px) {
@@ -430,6 +440,12 @@ body {
 		grid-column-end: 2;
 		grid-row-start: 2;
 		grid-row-end: 3;
+	}
+	#information #map-container #year-selector {
+		flex-wrap: nowrap;
+	}
+	#information #map-container #year-selector .instructions {
+		display: none;
 	}
 	#information #demographics {
 		grid-row-start: 3;
@@ -463,8 +479,34 @@ body {
 	}
 }
 
+@media only screen and (max-width: 530px) {
+	#info-nav {
+		flex-wrap: wrap;
+	}
+	#info-nav #nav-title {
+		width: 100%;
+	}
+	#info-nav #search {
+		width: 90%;
+		margin: 0 5%;
+		padding: 1.5em 0;
+	}
+}
+
+@media only screen and (max-width: 490px) {
+	#information #map-container #year-selector {
+		flex-wrap: wrap;
+	}
+	#information #map-container #year-selector .instructions {
+		display: none;
+	}
+}
+
 @media only screen and (max-width: 487px) {
 	#information #projects-list {
 		display: none;
+	}
+	#information #map-container #year-selector .year, #information #map-container #year-selector .yearReset {
+		font-size: 0.7em;
 	}
 }

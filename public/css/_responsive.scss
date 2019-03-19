@@ -21,6 +21,22 @@ body {
     #projects-list {
       grid-column-start:1;
     }
+
+    #map-container {
+      #year-selector {
+        flex-wrap:wrap;
+
+        .instructions {
+          display:none;
+        }
+      }
+    }
+  }
+
+  #info-nav {
+    #search {
+      margin-right:0;
+    }
   }
 }
 
@@ -37,6 +53,14 @@ body {
       grid-column-end:2;
       grid-row-start:2;
       grid-row-end:3;
+
+      #year-selector {
+        flex-wrap:nowrap;
+
+        .instructions {
+          display:none;
+        }
+      }
     }
 
     #demographics {
@@ -75,10 +99,48 @@ body {
     }
 }
 
+@media only screen and (max-width:530px){
+  #info-nav {
+    flex-wrap:wrap;
+
+    #nav-title {
+      width:100%;
+    }
+
+    #search {
+      width:90%;
+      margin:0 5%;
+      padding:1.5em 0;
+    }
+  }
+}
+
+@media only screen and (max-width:490px){
+  #information {
+    #map-container {
+      #year-selector {
+        flex-wrap:wrap;
+
+        .instructions {
+          display:none;
+        }
+      }
+    }
+  }
+}
+
 @media only screen and (max-width:487px){
   #information {
     #projects-list {
       display:none;
+    }
+
+    #map-container {
+      #year-selector {
+        .year, .yearReset {
+          font-size:0.7em;
+        }
+      }
     }
   }
 }
