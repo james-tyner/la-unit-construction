@@ -26,10 +26,10 @@ app.get('/', function (req, res) {
 
 app.use(express.static("public"));
 
-axios.interceptors.request.use(request => {
-  console.log('Starting Request', request)
-  return request
-});
+// axios.interceptors.request.use(request => {
+//   console.log('Starting Request', request)
+//   return request
+// });
 
 const validZips = [
   90042,
