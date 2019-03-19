@@ -282,6 +282,32 @@ app.get("/api/neighborhoods/:zip/geojson", function(request, response){
   return response.json(JSON.parse(zipGeo));
 })
 
+app.get("/api/cityGeoJSON", function(request, response){
+  var zipCodeInfo;
+
+  axios.get("/api/neighborhoods").then(function(results){
+    zipCodeInfo = results.data;
+
+    countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
+    countyGeo = JSON.parse(countyGeo);
+
+    for (var i=countyGeo.features.length - 1; i >= 0; i--){
+      var currentZip = parseInt(countyGeo.features[i].properties.zipcode);
+      if(validZips.includes(currentZip)){
+        let zipInfo = results.data.find(o => o.zipCode === currentZip);
+
+        countyGeo.features[i].properties.description = zipInfo.description;
+        countyGeo.features[i].properties.units = zipInfo.units;
+        countyGeo.features[i].properties.costs = zipInfo.costs;
+      } else {
+        countyGeo.features.splice(i, 1)
+      }
+    }
+
+    return response.json(countyGeo);
+  })
+});
+
 
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50

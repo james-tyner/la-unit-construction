@@ -131,28 +131,14 @@ function getCountyMap() {
   return axios.get(`/api/neighborhoods/LA_County/geojson`);
 }
 
-axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(information, county){
+axios.get("/api/cityGeoJSON").then(function(cityGeo){
 
-  for (var i=county.data.features.length - 1; i >= 0; i--){
-    var currentZip = parseInt(county.data.features[i].properties.zipcode);
-    if(validZips.includes(currentZip)){
-      let zipInfo = information.data.find(o => o.zipCode === currentZip);
-
-      county.data.features[i].properties.description = zipInfo.description;
-      county.data.features[i].properties.units = zipInfo.units;
-      county.data.features[i].properties.costs = zipInfo.costs;
-    } else {
-      county.data.features.splice(i, 1)
-    }
-  }
-
-  console.log(county.data.features);
 
   L.mapbox.accessToken = 'pk.eyJ1IjoiamFtZXN0eW5lciIsImEiOiJjajFudmdsZmMwMHF6MnF0YXBoenJ4ZDRiIn0.1bj8d2G_o-fofYOH18BEqA';
 
   var center = new Promise(function(resolve, reject) {
     // calculate the geographic center of the projects
-    var features = turf.featureCollection(county.data.features);
+    var features = turf.featureCollection(cityGeo.data.features);
     var centerCoords = turf.center(features);
     if (centerCoords){
       var coordsArray = turf.getCoords(centerCoords)
@@ -174,7 +160,7 @@ axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(informa
 
       var popup = new L.Popup({ autoPan: false });
 
-      var projectsLayer = L.geoJson(county.data,  {
+      var projectsLayer = L.geoJson(cityGeo.data,  {
         style: getStyle,
         onEachFeature: onEachFeature
       }).addTo(map);
@@ -265,4 +251,4 @@ axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(informa
       // });
     });
   });
-}));
+});
