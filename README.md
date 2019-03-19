@@ -37,6 +37,10 @@
 	* Project geographic data is obtained using [axios](https://github.com/axios/axios), Express, and the .geojson files generated earlier, then displayed through Mapbox
 	* VueJS uses the Node endpoints to obtain, filter, and display demographic data and a project list
 
+7. A [homepage](https://additup.jamestyner.com) is built using Handlebars and Mapbox.js
+	* LA County ZIP code geographic data is saved in a static .geojson file on the server. When the page loads, it's merged with the latest unit counts for each ZIP on the server
+	* axios pulls this latest information and feeds it as geojson to Mapbox, which then displays it as a chloropleth map 
+
 ## Sources
   * LA City open data portal
   * US Census Bureau American Communities Survey (2017, 5-year estimates)
