@@ -174,7 +174,7 @@ app.get('/api/neighborhoods', function(request, response){
     }
   });
 
-  let sql = `SELECT ZIP, Description FROM attributes ORDER BY ZIP`;
+  let sql = `SELECT * FROM attributes ORDER BY ZIP`;
 
   db.all(sql,[],(err, rows ) => {
     if (err) {
@@ -184,7 +184,17 @@ app.get('/api/neighborhoods', function(request, response){
     rows.forEach((row) => {
       zipHolder.push({
         "zipCode":row.ZIP,
-        "description":row.Description
+        "description":row.Description,
+        "units":{
+          "unitsAll":row.UnitsAll,
+          "units2019":row.Units2019,
+          "units2018":row.Units2018,
+          "units2017":row.Units2017,
+          "units2016":row.Units2016,
+          "units2015":row.Units2015,
+          "units2014":row.Units2014,
+          "units2013":row.Units2013
+        }
       });
     });
 

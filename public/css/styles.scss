@@ -38,52 +38,118 @@ header {
   border-bottom:1px solid $gray;
 }
 
-main {
-  width:56vw;
+#home-main {
+  width:96vw;
   padding:2vw;
-  position:absolute;
-  left:0;
+  display:grid;
+  grid-template-columns:28% 72%;
+  grid-template-rows:auto auto 80vh auto;
 
-  #view-sample {
-    display:none;
+  nav {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:nowrap;
+    grid-row:1 / 2;
+    grid-column:1 / 3;
+
+    #search {
+      width:50%;
+      margin-right:3em;
+      margin-left:auto;
+
+      input[type="text"]{
+        padding:0.5em;
+        width:100%;
+        border-radius:8px;
+        border-width:2px;
+        border-style:solid;
+        border-color:$purple;
+        font-size:0.9em;
+        box-sizing:border-box;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+
+        &::placeholder {
+          font-style:italic;
+        }
+
+        &:focus {
+          border-color:$green;
+        }
+      }
+    }
   }
 
   #explainer {
     padding-bottom:1em;
-    border-bottom:1px solid $gray;
     margin-bottom:1em;
+    grid-row:2 / 3;
+    grid-column:1 / 3;
+    line-height:2.4em;
   }
 
-  form {
-    .form-row {
-      max-width:250px;
-      width:100%;
+  #chloropleth {
+    grid-row:3 / 4;
+    grid-column:2 / 3;
+  }
 
-      label {
-        font-weight:lighter;
-        align-self:center;
-        color:$gray * 3;
-        font-size:0.7em;
-      }
+  #email-subscribe {
+    grid-row:3 / 4;
+    grid-column:1 / 2;
+    line-height:1.5em;
+    padding:0 5%;
+    background-color:$gray;
 
-      input {
+    p {
+      color:white;
+    }
+
+    form {
+      .form-row {
+        max-width:250px;
         width:100%;
 
-        &[type="text"] {
-          font-size:1em;
-          padding:0.2em;
-          border-radius:4px;
-          border-color:$gray * 2;
-          border-width:2px;
-          border-style:solid;
+        label {
+          font-weight:lighter;
+          align-self:center;
+          color:$blue;
+          font-size:0.7em;
+        }
 
-          &:focus {
-            border-color:$purple;
+        input {
+          width:100%;
+
+          &[type="text"] {
+            font-size:1em;
+            padding:0.2em;
+            border-radius:4px;
+            border-color:$gray * 2;
+            border-width:2px;
+            border-style:solid;
+
+            &:focus {
+              border-color:$purple;
+            }
           }
         }
-      }
 
-      margin-bottom:0.8em;
+        margin-bottom:0.8em;
+      }
+    }
+  }
+
+  footer {
+    position:relative;
+    top:4em;
+    grid-row:4 / 5;
+    grid-column:1 / 3;
+
+    small {
+      display:block;
+
+      &:last-of-type {
+        padding-bottom:2em;
+      }
     }
   }
 }
@@ -94,6 +160,7 @@ h1 {
   &#nav-title {
     font-size:3.5em;
     margin-top:0;
+    margin-bottom:0;
   }
 
   #title-emphasis {
@@ -111,6 +178,7 @@ h1 {
 }
 
 #sample-email {
+  display:none;
   position:absolute;
   top:0;
   right:0;
@@ -206,19 +274,6 @@ h1 {
 
   #of-housing {
     margin-top:0.2em;
-  }
-}
-
-footer {
-  position:relative;
-  top:4em;
-
-  small {
-    display:block;
-
-    &:last-of-type {
-      padding-bottom:2em;
-    }
   }
 }
 
