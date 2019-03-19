@@ -99,9 +99,16 @@ header {
     line-height:1.5em;
     padding:0 5%;
     background-color:$gray;
+    display:flex;
+    align-items:center;
 
-    p {
+    p, small {
       color:white;
+    }
+
+    small {
+      font-style:italic;
+      opacity:0.6;
     }
 
     form {

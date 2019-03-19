@@ -174,7 +174,7 @@ app.get('/api/neighborhoods', function(request, response){
     }
   });
 
-  let sql = `SELECT * FROM attributes ORDER BY ZIP`;
+  let sql = `SELECT * FROM attributes LEFT JOIN costs ON attributes.ZIP = costs.ZIP ORDER BY attributes.ZIP`;
 
   db.all(sql,[],(err, rows ) => {
     if (err) {
@@ -194,6 +194,11 @@ app.get('/api/neighborhoods', function(request, response){
           "units2015":row.Units2015,
           "units2014":row.Units2014,
           "units2013":row.Units2013
+        },
+        "costs":{
+          "medianIncome":row.MedIncome,
+          "medianHousingCost":row.MedHousingCost,
+          "percentage":row.Percentage
         }
       });
     });

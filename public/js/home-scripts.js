@@ -140,6 +140,7 @@ axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(informa
 
       county.data.features[i].properties.description = zipInfo.description;
       county.data.features[i].properties.units = zipInfo.units;
+      county.data.features[i].properties.costs = zipInfo.costs;
     } else {
       county.data.features.splice(i, 1)
     }
@@ -190,14 +191,14 @@ axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(informa
 
       // get color depending on population density value
       function getColor(d) {
-        return d > 1000 ? '#003E99' :
-            d > 500  ? '#0058B3' :
-            d > 200  ? '#0071CC' :
-            d > 100  ? '#0A8BE6' :
-            d > 50   ? '#23A4FF' :
-            d > 20   ? '#3DBEFF' :
-            d > 10   ? '#56D7FF' :
-            '#70F1FF';
+        return d > 2000 ? '#392775' :
+            d > 1500  ? '#5135A5' :
+            d > 1000  ? '#6943D5' :
+            d > 500  ? '#754AED' :
+            d > 250   ? '#835CEF' :
+            d > 50   ? '#916EF1' :
+            d > 10   ? '#9F80F3' :
+            '#AD92F5';
       }
 
       function onEachFeature(feature, layer) {
@@ -215,7 +216,7 @@ axios.all([getZIPCodeInfo(), getCountyMap()]).then(axios.spread(function(informa
 
         popup.setLatLng(e.latlng);
         popup.setContent('<div class="marker-title">' + layer.feature.properties.zipcode + ' - ' + layer.feature.properties.description + '</div>' +
-            commaSeparated(layer.feature.properties.units.unitsAll) + ' units approved since 2013');
+            commaSeparated(layer.feature.properties.units.unitsAll) + ' units approved since 2013<br/>Median income: $' + commaSeparated(layer.feature.properties.costs.medianIncome) + '<br/>Monthly housing cost: $' + commaSeparated(layer.feature.properties.costs.medianHousingCost));
 
         if (!popup._map) popup.openOn(map);
         window.clearTimeout(closeTooltip);

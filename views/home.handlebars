@@ -47,25 +47,30 @@
 
 
       <section id="email-subscribe">
-        <p>Enter your email address below to be notified each week of the housing projects coming to a ZIP code you care about.</p>
-        <form action="../email/subscribe" method="post">
-          <div class="form-row">
-            <label for="email">Email</label><br>
-              <input type="text" id="email" name="email">
-          </div>
-          <div class="form-row">
-            <label for="autocomplete">ZIP</label><br>
-              <input type="text" id="autocomplete" name="zip">
-          </div>
-          {{# if errors }}
-            {{# each errors }}
-              <small style="color:red;">{{ this.msg }}</small><br>
-            {{/each}}
-          {{/if}}
-          <button type="submit">Submit</button>
-        </form>
+        <div>
+          <p>Enter your email address below to be notified each week of the housing projects coming to a ZIP code you care about.</p>
+          <form action="../email/subscribe" method="post">
+            <div class="form-row">
+              <label for="email">Email</label><br>
+                <input type="text" id="email" name="email">
+            </div>
+            <div class="form-row">
+              <label for="autocomplete">ZIP</label><br>
+                <input type="text" id="autocomplete" name="zip">
+            </div>
+            {{# if errors }}
+              {{# each errors }}
+                <small style="color:red;">{{ this.msg }}</small><br>
+              {{/each}}
+            {{/if}}
+            <button type="submit">Submit</button>
+          </form>
+          <p id="view-sample"><a href="#sample-email">View sample email</a></p>
+          <small>Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small>
+        </div>
 
-        <p id="view-sample"><a href="#sample-email">View sample email</a></p>
+
+
       </section>
 
       <footer>

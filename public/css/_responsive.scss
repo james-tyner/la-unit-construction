@@ -6,6 +6,20 @@ body {
   #information {
     grid-template-columns:45% 55%;
   }
+
+  #home-main {
+    grid-template-columns:40% 60%;
+  }
+}
+
+@media only screen and (max-width:945px){
+  #home-main {
+    nav {
+      #search {
+        margin-right:0;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width:844px){
@@ -36,6 +50,42 @@ body {
   #info-nav {
     #search {
       margin-right:0;
+    }
+  }
+}
+
+@media only screen and (max-width:801px){
+  #home-main {
+    nav {
+      flex-wrap:wrap;
+
+      #nav-title {
+        width:100%;
+      }
+
+      #search{
+        width:95%;
+        margin:auto;
+        margin-top:1.5em;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width:735px){
+  #home-main {
+    #chloropleth {
+      grid-column: 1 / 3;
+    }
+
+    #email-subscribe {
+      grid-row: 4 / 5;
+      grid-column: 1 / 3;
+      padding-bottom:1.2em;
+    }
+
+    footer {
+      grid-row:5 / 6;
     }
   }
 }
