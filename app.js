@@ -309,6 +309,19 @@ app.get("/api/cityGeoJSON", function(request, response){
 });
 
 
+// Return ZIP code boundary for one ZIP code
+app.get("/api/cityGeoJSON/:zip", function(request, response){
+  var zipCodeInfo;
+
+  countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
+  countyGeo = JSON.parse(countyGeo);
+
+  singleZIPBound = countyGeo.features.find(zip => zip.properties.zipcode == request.params.zip);
+
+  return response.json(singleZIPBound);
+});
+
+
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
 app.get('/api/projects/:zip', function(req, res){

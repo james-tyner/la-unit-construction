@@ -14,6 +14,10 @@ function getZIPCodeProjects() {
   return axios.get(`/api/projects/${requestedZip}`);
 }
 
+function getSingleZIPBoundary(){
+  return axios.get(`/api/cityGeoJSON/${requestedZip}`)
+}
+
 axios.all([getZIPCodeInfo(), getZIPCodeProjects()]).then(axios.spread(function(information, projects){
 
   var infoApp = new Vue({
@@ -95,6 +99,20 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
       var map = L.mapbox.map('map')
         .addLayer(mapboxTiles)
         .setView([values[1], values[0]], 13.5);
+
+      // add the ZIP code border to the map
+      getSingleZIPBoundary().then((result) => {
+        // var borderLayer = L.mapbox.featureLayer().addTo(map);
+        var borderLayer = L.geoJson(result.data, {
+          style:{
+            color:"#1b2c42",
+            weight:3,
+            fillOpacity:0
+          }
+        }).addTo(map);
+
+        // borderLayer.setGeoJSON(result.data);
+      });
 
       var projectsLayer = L.mapbox.featureLayer().addTo(map);
 
