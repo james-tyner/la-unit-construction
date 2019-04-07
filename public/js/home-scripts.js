@@ -151,12 +151,12 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
   center.then(function(values) {
     var mapboxTiles = L.mapbox.tileLayer('mapbox.light');
 
+    $("#loading").show();
+
     mapboxTiles.on("ready", function(){
       var map = L.mapbox.map('chloropleth')
         .addLayer(mapboxTiles)
         .setView([values[1], values[0]], 10);
-
-      // var projectsLayer = L.mapbox.featureLayer().addTo(map);
 
       var popup = new L.Popup({ autoPan: false });
 
@@ -229,6 +229,8 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
       function zoomToFeature(e) {
           map.fitBounds(e.target.getBounds());
       }
+
+      $("#loading").hide();
 
       // map.fitBounds(projectsLayer.getBounds());
 

@@ -89,6 +89,8 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
   center.then(function(values) {
     var mapboxTiles = L.mapbox.tileLayer('mapbox.light');
 
+    $("#loading").show();
+
     mapboxTiles.on("ready", function(){
       var map = L.mapbox.map('map')
         .addLayer(mapboxTiles)
@@ -101,6 +103,7 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
           feature = marker.feature;
         var content = ('<p><strong>' + feature.properties.address + '</strong></p><p>') + (feature.properties.units == 0 ? "Unit count unavailable" : (feature.properties.units + " units")) + ('</p><p>' + feature.properties.date + '</p>');
         marker.bindPopup(content);
+        $("#loading").hide();
       });
 
       projectsLayer.setGeoJSON(results.data);
