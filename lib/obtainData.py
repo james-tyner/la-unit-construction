@@ -3,6 +3,7 @@ import json
 import sqlite3
 import datetime
 import os
+import unicodedata
 
 # response is capped at 40,000 records. Just need to change limit parameter to get more
 response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$limit=40000&$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
@@ -59,13 +60,21 @@ for project in jsonData:
     Address = Address.strip()
 
     if project.get("location_1"):
-        Coordinates = project["location_1"]
+        Coordinates = json.dumps(project["location_1"])
     else:
         Coordinates = ""
 
+    if project.get("work_description"):
+        Description = project["work_description"]
+        Description = unicodedata.normalize('NFKD', Description).encode('ascii','ignore')
+        Description = Description.replace('"',"'")
+    else:
+        Description = ""
+
+
     command = """
-    INSERT INTO projects (Type, Date, ZIP, Units, Stories, Address, LatLong)
-    VALUES ('%s', '%s', '%s', '%s', '%s', "%s", "%s");""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"], Address, Coordinates)
+    INSERT INTO projects (Type, Date, ZIP, Units, Stories, Address, LatLong, Description)
+    VALUES ('%s', '%s', '%s', '%s', '%s', "%s", '%s', "%s");""" % (project["permit_sub_type"], newDate, project["zip_code"], project["of_residential_dwelling_units"], project["of_stories"], Address, Coordinates, Description)
 
     cursor.execute(command)
 

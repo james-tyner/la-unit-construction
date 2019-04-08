@@ -308,13 +308,13 @@ app.get("/api/cityGeoJSON", function(request, response){
   })
 });
 
+// Return shape of the city limits as a polygon
 app.get("/api/cityShape", function(request, response){
   cityGeo = fs.readFileSync("geojson/LA_City_simplified.geojson");
   cityGeo = JSON.parse(cityGeo);
 
   return response.json(cityGeo);
-})
-
+});
 
 // Return ZIP code boundary for one ZIP code
 app.get("/api/cityGeoJSON/:zip", function(request, response){
@@ -378,7 +378,8 @@ app.get('/api/projects/:zip', function(req, res){
         "type":row.Type,
         "address":row.Address,
         "units":row.Units,
-        "stories":row.Stories
+        "stories":row.Stories,
+        "description":row.Description
       });
     });
 

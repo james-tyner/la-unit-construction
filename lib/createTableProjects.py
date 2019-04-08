@@ -16,7 +16,7 @@ CREATE TABLE projects (
     Street_Suffix varchar(4),
     ZIP int,
     LatLong blob,
-    Description varchar(100),
+    Description varchar(200),
     Units int,
     Stories int);"""
 

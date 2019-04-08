@@ -12,3 +12,5 @@ runSendEmail*
 geojson/*
 *.pyc
 runForceProgramTest*
+runForceEmailTest*
+public/static-maps
