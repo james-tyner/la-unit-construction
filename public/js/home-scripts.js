@@ -131,6 +131,10 @@ function getCountyMap() {
   return axios.get(`/api/neighborhoods/LA_County/geojson`);
 }
 
+function getCityShape(){
+  return axios.get(`/api/cityShape`)
+}
+
 function getMetroStations(){
   return axios.get("/api/metroJSON");
 }
@@ -175,10 +179,6 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
         });
 
         metroLayer.setGeoJSON(result.data);
-
-        metroLayer.on('click', function(e) {
-          map.panTo(e.layer.getLatLng());
-        });
       });
 
       var projectsLayer = L.geoJson(cityGeo.data,  {
@@ -252,26 +252,6 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
       }
 
       $("#loading").hide();
-
-      // map.fitBounds(projectsLayer.getBounds());
-
-      // $("#year-selector .year").on("click", function(){
-      //   let newYear = this.innerHTML;
-      //   projectsLayer.setFilter(function(f) {
-      //       return f.properties.date.toString().startsWith(newYear);
-      //   });
-      //   $("#year-selector .year").removeClass("active");
-      //   $("#year-selector .yearReset").removeClass("active");
-      //   $(this).addClass("active");
-      // });
-      //
-      // $("#year-selector .yearReset").on("click", function(){
-      //   projectsLayer.setFilter(function(f){
-      //     return true;
-      //   });
-      //   $("#year-selector .year").removeClass("active");
-      //   $(this).addClass("active");
-      // });
     });
   });
 });

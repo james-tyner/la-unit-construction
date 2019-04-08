@@ -147,6 +147,12 @@
       }
     }
 
+    .legend nav {
+      display:inline-flex;
+      justify-content:space-between;
+      align-items:stretch;
+    }
+
     #map {
       width:100%;
       height:95%;

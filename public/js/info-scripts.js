@@ -18,6 +18,10 @@ function getSingleZIPBoundary(){
   return axios.get(`/api/cityGeoJSON/${requestedZip}`)
 }
 
+function getCityShape(){
+  return axios.get(`/api/cityShape`)
+}
+
 function getMetroStations(){
   return axios.get("/api/metroJSON");
 }
@@ -121,11 +125,23 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
         });
       });
 
+      // MASK
+      getCityShape().then((result) => {
+        var borderLayer = L.geoJson(result.data, {
+          style:{
+            color:"#1b2c42",
+            weight:0,
+            fillColor:"#754aed",
+            fillOpacity:0.15
+          }
+        }).addTo(map);
+      });
+
       // add the ZIP code border to the map
       getSingleZIPBoundary().then((result) => {
         var borderLayer = L.geoJson(result.data, {
           style:{
-            color:"#1b2c42",
+            color:"#1dcc70",
             weight:3,
             fillOpacity:0
           }
@@ -133,6 +149,8 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
       });
 
       var projectsLayer = L.mapbox.featureLayer().addTo(map);
+
+      map.legendControl.addLegend(document.getElementById('legend').innerHTML);
 
       projectsLayer.on('layeradd', function(e) {
         var marker = e.layer,
