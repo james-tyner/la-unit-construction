@@ -35,9 +35,9 @@
     }
 
     #zip-code {
-      margin-top:0;
+      margin-top:0.5em;
       font-size:2.5em;
-      margin-bottom:0;
+      margin-bottom:0.5em;
       color: #1B2C42;
     }
 
@@ -71,13 +71,17 @@
       margin-top:0;
     }
 
+    img {
+      width:100%;
+    }
+
     .address {
       font-weight:400;
       margin-bottom:0;
     }
 
     .details {
-      color:#ccc;
+      color:#bababa;
       font-size:0.7em;
       font-weight:300;
       margin-top:0;
@@ -110,34 +114,42 @@
 
     <div>
       <h4 class="new-section">This week in</h4>
-      <h1 id="zip-code">90015</h1>
-      <h2 id="neighborhood-name">South Park</h2>
+      <h1 id="zip-code">90037</h1>
+      <h2 id="neighborhood-name">South LA</h2>
 
-      <h2 class="figure">1</h2>
+      <h2 class="figure">7</h2>
       <p class="descriptor">permits for new residential buildings</p>
 
-      <h2 class="figure">42</h2>
+      <h2 class="figure">11</h2>
       <p class="descriptor">total units of housing</p>
     </div>
 
     <div>
       <h3 class="new-section" id="projects-list-title">Projects</h3>
-      <!-- {{#each projects}} -->
-        <p class="address">1315 S HOPE ST</p>
-        <!-- {{#if this.unitCount}} -->
-          <p class="details">42 units</p>
-        <!-- {{/if}} -->
-      <!-- {{/each}} -->
+      <img src="https://additup.jamestyner.com/static-maps/90037.png">
+      <small>© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong></small>
+        <p class="address">362 W 47th Pl</p>
+          <p class="details">1 units</p>
+        <p class="address">3948 S Budlong Av</p>
+          <p class="details">2 units</p>
+        <p class="address">3944 S Budlong Av</p>
+          <p class="details">2 units</p>
+        <p class="address">1135 W Leighton Av</p>
+          <p class="details">2 units</p>
+        <p class="address">3946 S Budlong Av</p>
+          <p class="details">2 units</p>
+        <p class="address">913 W 50th St</p>
+          <p class="details">2 units</p>
+        <p class="address">834 W 54th St</p>
+          <p class="details"></p>
 
-      <p><a href="https://additup.jamestyner.com/info.html?zip=90015">View more</a></p>
+      <p><a href="https://additup.jamestyner.com/info.html?zip=90037">View more</a></p>
     </div>
 
     <div>
       <p id="produced" class="new-section">This ZIP code has produced</p>
-      <h2 class="units">390 units</h2>
+      <h2 class="units">37 units</h2>
       <p id="of-housing">of housing in 2019.</p>
-
-      <p><a href="https://additup.jamestyner.com/info.html?zip=90015">View details on 90015</a></p>
     </div>
   </div>
 </body>
