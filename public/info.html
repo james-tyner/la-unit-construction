@@ -43,7 +43,7 @@
           <h1>{{zipCode}}</h1>
           <h2 class="zip-desc">{{info.description}}</h2>
           <h2 class="zip-units-all">{{info.units.unitsAll | zeroIfNull | commaSeparated}} units approved since 2013</h2>
-          <p class="zip-units-ytd">{{info.units.units2019 | zeroIfNull | commaSeparated}} units in 2019</p>
+          <p class="zip-units-ytd">{{info.units["units" + sidebarYear] | zeroIfNull | commaSeparated}} units in {{sidebarYear}}</p>
         </div>
         <div id="demographics">
           <div class="population">
@@ -86,14 +86,14 @@
           <div id='map'></div>
           <div id="year-selector">
             <div class="instructions">Filter:</div>
-            <div class="yearReset active" v-on:click="selectedYear = ''">All</div>
-            <div class="year" v-on:click="selectedYear = '2019'">2019</div>
-            <div class="year" v-on:click="selectedYear = '2018'">2018</div>
-            <div class="year" v-on:click="selectedYear = '2017'">2017</div>
-            <div class="year" v-on:click="selectedYear = '2016'">2016</div>
-            <div class="year" v-on:click="selectedYear = '2015'">2015</div>
-            <div class="year" v-on:click="selectedYear = '2014'">2014</div>
-            <div class="year" v-on:click="selectedYear = '2019'">2013</div>
+            <div class="yearReset active" v-on:click="selectedYear = ''; sidebarYear = '2019'">All</div>
+            <div class="year" v-on:click="selectedYear = '2019'; sidebarYear = '2019'">2019</div>
+            <div class="year" v-on:click="selectedYear = '2018'; sidebarYear = '2018'">2018</div>
+            <div class="year" v-on:click="selectedYear = '2017'; sidebarYear = '2017'">2017</div>
+            <div class="year" v-on:click="selectedYear = '2016'; sidebarYear = '2016'">2016</div>
+            <div class="year" v-on:click="selectedYear = '2015'; sidebarYear = '2015'">2015</div>
+            <div class="year" v-on:click="selectedYear = '2014'; sidebarYear = '2014'">2014</div>
+            <div class="year" v-on:click="selectedYear = '2019'; sidebarYear = '2013'">2013</div>
           </div>
         </div>
         <div id="projects-list">

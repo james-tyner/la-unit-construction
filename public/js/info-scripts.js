@@ -33,7 +33,8 @@ axios.all([getZIPCodeInfo(), getZIPCodeProjects()]).then(axios.spread(function(i
       zipCode:requestedZip,
       info:information.data[0],
       projects:projects.data,
-      selectedYear:""
+      selectedYear:"",
+      sidebarYear:"2019"
     },
     el:"#information",
     computed: {
