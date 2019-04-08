@@ -131,6 +131,10 @@ function getCountyMap() {
   return axios.get(`/api/neighborhoods/LA_County/geojson`);
 }
 
+function getMetroStations(){
+  return axios.get("/api/metroJSON");
+}
+
 axios.get("/api/cityGeoJSON").then(function(cityGeo){
 
 
@@ -159,6 +163,23 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
         .setView([values[1], values[0]], 10);
 
       var popup = new L.Popup({ autoPan: false });
+
+      getMetroStations().then((result) => {
+        var metroLayer = L.mapbox.featureLayer().addTo(map);
+
+        metroLayer.on('layeradd', function(e) {
+          var marker = e.layer,
+            feature = marker.feature;
+          var content = ('<p><strong>') + feature.properties.STATION + ('</strong></p><p>') + feature.properties.LINE + (' Line</p>');
+          marker.bindPopup(content);
+        });
+
+        metroLayer.setGeoJSON(result.data);
+
+        metroLayer.on('click', function(e) {
+          map.panTo(e.layer.getLatLng());
+        });
+      });
 
       var projectsLayer = L.geoJson(cityGeo.data,  {
         style: getStyle,

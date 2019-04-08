@@ -18,6 +18,10 @@ function getSingleZIPBoundary(){
   return axios.get(`/api/cityGeoJSON/${requestedZip}`)
 }
 
+function getMetroStations(){
+  return axios.get("/api/metroJSON");
+}
+
 axios.all([getZIPCodeInfo(), getZIPCodeProjects()]).then(axios.spread(function(information, projects){
 
   var infoApp = new Vue({
@@ -100,9 +104,25 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
         .addLayer(mapboxTiles)
         .setView([values[1], values[0]], 13.5);
 
+      getMetroStations().then((result) => {
+        var metroLayer = L.mapbox.featureLayer().addTo(map);
+
+        metroLayer.on('layeradd', function(e) {
+          var marker = e.layer,
+            feature = marker.feature;
+          var content = ('<p><strong>') + feature.properties.STATION + ('</strong></p><p>Metro ') + feature.properties.LINE + (' Line</p>');
+          marker.bindPopup(content);
+        });
+
+        metroLayer.setGeoJSON(result.data);
+
+        metroLayer.on('click', function(e) {
+          map.panTo(e.layer.getLatLng());
+        });
+      });
+
       // add the ZIP code border to the map
       getSingleZIPBoundary().then((result) => {
-        // var borderLayer = L.mapbox.featureLayer().addTo(map);
         var borderLayer = L.geoJson(result.data, {
           style:{
             color:"#1b2c42",
@@ -110,8 +130,6 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
             fillOpacity:0
           }
         }).addTo(map);
-
-        // borderLayer.setGeoJSON(result.data);
       });
 
       var projectsLayer = L.mapbox.featureLayer().addTo(map);

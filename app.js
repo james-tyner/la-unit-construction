@@ -322,6 +322,15 @@ app.get("/api/cityGeoJSON/:zip", function(request, response){
 });
 
 
+// Return Metro stations GeoJSON
+app.get("/api/metroJSON", function(request, response){
+  metroGeo = fs.readFileSync("geojson/Metro_Rail.geojson")
+  metroGeo = JSON.parse(metroGeo);
+
+  return response.json(metroGeo);
+})
+
+
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
 app.get('/api/projects/:zip', function(req, res){
