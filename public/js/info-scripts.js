@@ -28,6 +28,8 @@ function getMetroStations(){
 
 axios.all([getZIPCodeInfo(), getZIPCodeProjects()]).then(axios.spread(function(information, projects){
 
+  Vue.directive('tooltip', VTooltip.VTooltip)
+
   var infoApp = new Vue({
     data: {
       zipCode:requestedZip,

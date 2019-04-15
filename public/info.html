@@ -15,6 +15,13 @@
 
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
 
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+
+    <!-- Tooltip plugin -->
+    <script src="https://unpkg.com/v-tooltip"></script>
+
     <!-- MY STYLESHEETS -->
     <link rel="stylesheet" href="css/styles.min.css">
     <link rel="stylesheet" href="../css/styles.min.css">
@@ -108,7 +115,7 @@
             <tbody>
               <tr class="indiv-project" v-for="project in yearFiltered">
                 <td class="project-date">{{project.date | humanDate}}</td>
-                <td class="project-address">{{project.address}}</td>
+                <td class="project-address">{{project.address}}<a class="info-button" v-tooltip.left="project.description"><i class="fas fa-info-circle"></i></a></td>
                 <td class="project-units">{{project.units | zeroIfNull | pluralizeUnits}}</td>
                 <td v-if="project.stories != 'null'" class="project-stories">{{project.stories | pluralizeStories}}</td>
               </tr>
