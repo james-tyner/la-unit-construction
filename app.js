@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const axios = require('axios');
 
+let compression = require("compression");
 let express = require("express");
 let app = express();
 var bodyParser = require("body-parser");
@@ -24,6 +25,7 @@ app.get('/', function (req, res) {
   res.render('home', {layout: false});
 });
 
+app.use(compression());
 app.use(express.static("public"));
 
 // axios.interceptors.request.use(request => {
