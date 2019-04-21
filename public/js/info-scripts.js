@@ -123,6 +123,10 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
 
         metroLayer.setGeoJSON(result.data);
 
+        metroLayer.setFilter(function(f) {
+            return f.properties['zip'] == requestedZip;
+        });
+
         metroLayer.on('click', function(e) {
           map.panTo(e.layer.getLatLng());
         });

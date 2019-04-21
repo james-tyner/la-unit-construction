@@ -333,7 +333,7 @@ app.get("/api/cityGeoJSON/:zip", function(request, response){
 
 // Return Metro stations GeoJSON
 app.get("/api/metroJSON", function(request, response){
-  metroGeo = fs.readFileSync("geojson/Metro_Rail.geojson")
+  metroGeo = fs.readFileSync("geojson/Metro_Rail_cleaned.geojson")
   metroGeo = JSON.parse(metroGeo);
 
   return response.json(metroGeo);

@@ -49,8 +49,49 @@
             <p>Loading…</p>
           </div>
         </div>
-      </section>
+        <div id="map-menu">
+          <form>
+            <strong>Toggle layers</strong>
+            <div class="form-row">
+              <input type="checkbox" value="metro" id="show-zips" checked><label for="show-zips">ZIP codes</label>
+            </div>
+            <div class="form-row">
+              <input type="checkbox" value="metro" id="show-metro"><label for="show-metro">Metro Rail stations</label>
+            </div>
+            <div class="form-row">
+              <input type="checkbox" value="toc" id="show-toc-zones"><label for="show-toc-zones">TOC incentive zones <span style='color:green;'>(½ mi.)</span></label>
+            </div>
+            <div class="form-row">
+              <input type="checkbox" value="city-limits" id="show-city-limits"><label for="show-city-limits">LA city limits</label>
+            </div>
+          </form>
+        </div>
+        <div id='legend' style='display:none;'>
+          <strong>Units built since 2013</strong>
+          <nav class='legend clearfix'>
+            <div>
+              <div class="legend-row"><span style='color:#392775;'>█</span><label>2000+</label></div>
 
+              <div class="legend-row"><span style="color:#5135a5;">█</span><label>1501 to 2000</label></div>
+
+              <div class="legend-row"><span style="color:#6943D5;">█</span><label>1001 to 1500</label></div>
+
+              <div class="legend-row"><span style="color:#754aed;">█</span><label>501 to 1000</label></div>
+
+              <div class="legend-row"><span style="color:#835CEF;">█</span><label>251 to 500</label></div>
+
+              <div class="legend-row"><span style="color:#916ef1;">█</span><label>51 to 250</label></div>
+
+              <div class="legend-row"><span style="color:#9f80f3;">█</span><label>11 to 50</label></div>
+
+              <div class="legend-row"><span style="color:#ad92f5;">█</span><label>1 to 10</label></div>
+
+              <div class="legend-row"><span style="color:#cccccc;">█</span><label>0</label></div>
+            </div>
+          </nav>
+        </div>
+        <div id="map"></div>
+      </section>
 
       <section id="email-subscribe">
         <div>
@@ -74,17 +115,30 @@
           <p id="view-sample"><a target="_blank" href="/email-sample.html">View sample email</a></p>
           <small>Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small>
         </div>
-
-
-
       </section>
 
+      <!-- <table id="summary">
+        <tr>
+          <td>Since 2013, Los Angeles has built </td>
+          <td>2</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+        </tr>
+      </table> -->
+
       <footer>
-        <small>Data comes from the <a href="//data.lacity.org">City of Los Angeles open data portal</a>. Metro Rail station data comes from the <a href="https://developer.metro.net/introduction/gis-data/download-gis-data/">Los Angeles County Metropolitan Transportation Authority</a>.</small>
+        <h3>About the data</h3>
+        <small>Buildings permits data come from the <a href="//data.lacity.org">city of Los Angeles open data portal</a>. This dataset includes only housing approved under the jurisdiction of the city of Los Angeles, so other cities (like Santa Monica or Burbank) and unincorporated LA County land (like Willowbrook or Marina Del Rey) are not included.</small>
         <br>
-        <small>Demographic data comes from the US Census Bureau 2017 American Communities Survey. </small>
+        <small>Metro Rail station data comes from the <a href="https://developer.metro.net/introduction/gis-data/download-gis-data/">Los Angeles County Metropolitan Transportation Authority</a>.</small>
         <br>
-        <small>Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small>
+        <small>Demographic data (including housing costs and median income) comes from the US Census Bureau 2017 American Communities Survey.</small>
+        <br>
+        <small>For weekly emails: Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small>
         <br>
         <small>&copy; 2019 James Tyner</small>
       </footer>

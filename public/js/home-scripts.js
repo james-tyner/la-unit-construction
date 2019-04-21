@@ -141,7 +141,6 @@ function getMetroStations(){
 
 axios.get("/api/cityGeoJSON").then(function(cityGeo){
 
-
   L.mapbox.accessToken = 'pk.eyJ1IjoiamFtZXN0eW5lciIsImEiOiJjajFudmdsZmMwMHF6MnF0YXBoenJ4ZDRiIn0.1bj8d2G_o-fofYOH18BEqA';
 
   var center = new Promise(function(resolve, reject) {
@@ -168,23 +167,20 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
 
       var popup = new L.Popup({ autoPan: false });
 
-      getMetroStations().then((result) => {
-        var metroLayer = L.mapbox.featureLayer().addTo(map);
-
-        metroLayer.on('layeradd', function(e) {
-          var marker = e.layer,
-            feature = marker.feature;
-          var content = ('<p><strong>') + feature.properties.STATION + ('</strong></p><p>') + feature.properties.LINE + (' Line</p>');
-          marker.bindPopup(content);
-        });
-
-        metroLayer.setGeoJSON(result.data);
-      });
-
       var projectsLayer = L.geoJson(cityGeo.data,  {
         style: getStyle,
         onEachFeature: onEachFeature
       }).addTo(map);
+
+      $("#show-zips").on("change", function(){
+        if($(this).is(':checked')) {
+          map.addLayer(projectsLayer);
+        } else {
+          map.removeLayer(projectsLayer);
+        }
+      });
+
+      map.legendControl.addLegend(document.getElementById('legend').innerHTML);
 
       function getStyle(feature) {
         return {
@@ -196,7 +192,7 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
         };
       }
 
-      // get color depending on population density value
+      // get color depending on number of units
       function getColor(d) {
         return d > 2000 ? '#392775' :
             d > 1500  ? '#5135A5' :
@@ -205,6 +201,7 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
             d > 250   ? '#835CEF' :
             d > 50   ? '#916EF1' :
             d > 10   ? '#9F80F3' :
+            d == 0 ? "#cccccc" :
             '#AD92F5';
       }
 
@@ -252,6 +249,79 @@ axios.get("/api/cityGeoJSON").then(function(cityGeo){
       }
 
       $("#loading").hide();
+
+      getMetroStations().then((result) => {
+        // METRO STATIONS LAYER
+        var metroLayer = L.mapbox.featureLayer();
+
+        metroLayer.on('layeradd', function(e) {
+          var marker = e.layer,
+            feature = marker.feature;
+          var content = ('<p><strong>') + feature.properties.STATION + ('</strong></p><p>') + feature.properties.LINE + (' Line</p>');
+          marker.bindPopup(content);
+        });
+
+        metroLayer.setGeoJSON(result.data);
+
+        $("#show-metro").on("change", function(){
+          if($(this).is(':checked')) {
+            map.addLayer(metroLayer);
+          } else {
+            map.removeLayer(metroLayer);
+          }
+        })
+
+        // TRANSIT ORIENTED COMMUNITIES LAYER
+        var tocBuffer = new Promise((resolve, reject) => {
+          var stations = turf.featureCollection(result.data.features);
+          var bufferedStations = turf.buffer(stations, 0.5, {units:"miles"});
+          if (bufferedStations){
+            resolve(bufferedStations);
+          } else {
+            console.log("Turf did not resolve the station buffer")
+          }
+        });
+
+        tocBuffer.then((stationZones) => {
+          var tocLayer = L.geoJson(stationZones, {
+            style:{
+              weight:1,
+              color:"green"
+            }
+          });
+
+          $("#show-toc-zones").on("change", function(){
+            if($(this).is(':checked')) {
+              map.addLayer(tocLayer);
+            } else {
+              map.removeLayer(tocLayer);
+            }
+          })
+        })
+      });
+
+        $("#show-city-limits").on("change", function(){
+          if ($(this).is(":checked")){
+            $("#loading").show();
+            getCityShape().then((result) => {
+              cityLimits = L.geoJson(result.data,  {
+                style: {
+                  weight:2,
+                  color:"black"
+                }
+              });
+
+              map.addLayer(cityLimits);
+              $("#loading").hide();
+            })
+          } else {
+            map.removeLayer(cityLimits);
+          }
+        })
+      })
     });
   });
+
+let summaryApp = new Vue({
+
 });
