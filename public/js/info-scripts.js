@@ -130,6 +130,37 @@ axios.get(`/api/neighborhoods/${requestedZip}/geojson`).then(function(results){
         metroLayer.on('click', function(e) {
           map.panTo(e.layer.getLatLng());
         });
+
+        // TRANSIT ORIENTED COMMUNITIES LAYER
+        var tocBuffer = new Promise((resolve, reject) => {
+          var zipStations = result.data.features.filter(station => station.properties.zip == requestedZip);
+          console.log(zipStations);
+          var stations = turf.featureCollection(zipStations);
+          var bufferedStations = turf.buffer(stations, 0.5, {units:"miles"});
+          if (bufferedStations){
+            resolve(bufferedStations);
+          } else {
+            console.log("Turf did not resolve the station buffer")
+          }
+        });
+
+        tocBuffer.then((stationZones) => {
+          var tocLayer = L.geoJson(stationZones, {
+            style:{
+              weight:1,
+              color:"darkblue",
+              fillOpacity:0.1
+            }
+          });
+
+          $("#show-toc-zones").on("change", function(){
+            if($(this).is(':checked')) {
+              map.addLayer(tocLayer);
+            } else {
+              map.removeLayer(tocLayer);
+            }
+          })
+        })
       });
 
       // MASK
