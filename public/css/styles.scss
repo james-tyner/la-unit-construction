@@ -193,21 +193,54 @@ header {
   #summary {
     grid-row:4 / 5;
     grid-column: 1 / 3;
-    border-collapse: collapse;
+    display:flex;
+    flex-wrap:wrap;
 
-    tr {
+    .summary-box {
       border-bottom-width:1px;
       border-bottom-style:solid;
       border-bottom-color:lightgray;
+      padding:15px;
+      flex-basis:calc(33% - 30px);
 
-      td {
-        width:calc(33% - 30px - 2px);
-        padding:15px;
+      &:nth-of-type(1), &:nth-of-type(2), &:nth-of-type(4), &:nth-of-type(5){
+        border-right-width:1px;
+        border-right-style::solid;
+        border-right-color:lightgray;
+      }
 
-        &:nth-of-type(1), &:nth-of-type(2){
-          border-right-width:1px;
-          border-right-style::solid;
-          border-right-color:lightgray;
+      h1 {
+        margin-bottom:0;
+        font-size:3em;
+      }
+
+      h2 {
+        color:$green;
+        margin:0;
+      }
+
+      h3 {
+        margin:0;
+      }
+
+      h4 {
+        margin-top:0;
+      }
+
+      .top-five {
+        margin-top:0.5em;
+
+        h3 {
+          margin:auto;
+        }
+
+        h3, p {
+          display:inline;
+        }
+
+        p {
+          margin-left:8px;
+          font-size:0.8em;
         }
       }
     }

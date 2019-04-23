@@ -248,6 +248,15 @@ function calculateTOCTotal(){
     if (err) throw err;
     console.log("Saved summary!");
   })
+
+  let objectForWeb = {
+    "toc-units":totalTOCUnits
+  }
+
+  fs.writeFileSync(`public/js/toc-units.json`, JSON.stringify(objectForWeb, null, 2) , 'utf-8', function (err) {
+        if (err) throw err;
+        console.log('Saved!');
+  });
 }
 
 calculateTOCYear(2016);

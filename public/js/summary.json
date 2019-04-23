@@ -1,0 +1,60 @@
+{
+  "median-percentage": 32.3, 
+  "top-five": [
+    {
+      "units": 4558, 
+      "description": "Downtown LA ", 
+      "zip": 90015
+    }, 
+    {
+      "units": 2661, 
+      "description": "Playa Vista", 
+      "zip": 90094
+    }, 
+    {
+      "units": 2299, 
+      "description": "Los Angeles", 
+      "zip": 90014
+    }, 
+    {
+      "units": 2260, 
+      "description": "North Hollywood ", 
+      "zip": 91601
+    }, 
+    {
+      "units": 2213, 
+      "description": "Hollywood ", 
+      "zip": 90028
+    }
+  ], 
+  "sum": 62489, 
+  "median-income": 54501, 
+  "least-five": [
+    {
+      "units": 0, 
+      "description": "Burbank (Glenoaks)", 
+      "zip": 91504
+    }, 
+    {
+      "units": 0, 
+      "description": "Lomita / Rancho Palos Verdes", 
+      "zip": 90717
+    }, 
+    {
+      "units": 0, 
+      "description": "Burbank", 
+      "zip": 91505
+    }, 
+    {
+      "units": 1, 
+      "description": "Pasadena", 
+      "zip": 91105
+    }, 
+    {
+      "units": 1, 
+      "description": "La Crescenta", 
+      "zip": 91214
+    }
+  ], 
+  "median-monthly-costs": 1467
+}

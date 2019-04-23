@@ -22,7 +22,25 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-  res.render('home', {layout: false});
+  let summaryFile = fs.readFileSync("public/js/summary.json");
+  let summaryData = JSON.parse(summaryFile);
+
+  let tocFile = fs.readFileSync("public/js/toc-units.json");
+  let tocData = JSON.parse(tocFile);
+
+  res.render('home', {
+    layout: false,
+    summaryData:summaryData,
+    tocData:tocData,
+    helpers:{
+      commaSeparated:function(val){
+        while (/(\d+)(\d{3})/.test(val.toString())){
+          val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+        }
+        return val;
+      }
+    }
+  });
 });
 
 app.use(compression());
@@ -343,23 +361,6 @@ app.get("/api/metroJSON", function(request, response){
 // Return all projects for one ZIP code
 // Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
 app.get('/api/projects/:zip', function(req, res){
-  // axios.get('/resource/75vw-v4fk.json', {
-  //   baseURL: 'https://data.lacity.org',
-  //   headers: {"X-App-Token": process.env.SOCRATA_API_KEY},
-  //   params: {
-  //     $limit:50,
-  //     $offset:(req.query.page || 0),
-  //     $order:"issue_date DESC",
-  //     $where:`permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial') AND zip_code = ${req.params.zip} AND ${lastWeek}`
-  //   }
-  // })
-  // .then(function (response) {
-  //   res.send(response.data);
-  // })
-  // .catch(function (error) {
-  //   console.log(error);
-  // });
-
   let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
     if (err) {
       return console.error(err.message);

@@ -117,18 +117,43 @@
         </div>
       </section>
 
-      <!-- <table id="summary">
-        <tr>
-          <td>Since 2013, Los Angeles has built </td>
-          <td>2</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
-        </tr>
-      </table> -->
+      <div id="summary">
+        <div class="summary-box">
+          <h1>{{commaSeparated summaryData.sum}}</h1>
+          <h3>housing units approved in the city of LA since 2013</h3>
+        </div>
+        <div class="summary-box">
+          <h2>Most active ZIP codes</h2>
+          {{#each summaryData.top-five}}
+            <div class="top-five">
+              <h3>{{this.zip}} - {{this.description}}</h3> <p>{{commaSeparated this.units}} units</p>
+            </div>
+          {{/each}}
+        </div>
+        <div class="summary-box">
+          <h2>Least active ZIP codes</h2>
+          {{#each summaryData.least-five}}
+            <div class="top-five">
+              <h3>{{this.zip}} - {{this.description}}</h3> <p>{{commaSeparated this.units}} units</p>
+            </div>
+          {{/each}}
+        </div>
+        <div class="summary-box">
+          <h1>{{commaSeparated tocData.toc-units}}</h1>
+          <h3>units built within ½ mi. of Metro Rail stations since 2013</h3>
+        </div>
+        <div class="summary-box">
+          <h2>${{commaSeparated summaryData.median-income}}</h2>
+          <h4>median income</h4>
+
+          <h2>${{commaSeparated summaryData.median-monthly-costs}}</h2>
+          <h4>median monthly housing costs</h4>
+        </div>
+        <div class="summary-box">
+          <h1>{{summaryData.median-percentage}}%</h1>
+          <h3>of income spent on housing, citywide</h3>
+        </div>
+      </div>
 
       <footer>
         <h3>About the data</h3>
@@ -143,50 +168,6 @@
         <small>&copy; 2019 James Tyner</small>
       </footer>
     </main>
-
-    <section id="sample-email">
-      <h3 id="sample-title">Sample email</h3>
-
-      <div>
-        <h4 class="new-section">This week in</h4>
-        <h1 id="zip-code">90007</h1>
-        <h2 id="neighborhood-name">South LA</h2>
-
-        <h2 class="figure">10</h2>
-        <p class="descriptor">permits for new residential buildings</p>
-
-        <h2 class="figure">14</h2>
-        <p class="descriptor">total units of housing</p>
-      </div>
-
-      <div>
-        <h3 class="new-section" id="projects-list-title">Projects</h3>
-
-        <p class="address">2643 S ORCHARD AVE</p>
-        <p class="address">1159 W 37TH ST</p>
-        <p class="details'">2 units</p>
-
-        <p class="address">1369 W 36TH ST</p>
-        <p class="details">2 units</p>
-
-        <p class="address">1378 W 30TH ST</p>
-        <p class="address">1159 W 37TH ST</p>
-        <p class="details">2 units</p>
-
-        <p class="address">2649 S ORCHARD AVE</p>
-
-        <p><a href="#">View more</a></p>
-      </div>
-
-      <div>
-        <p id="produced" class="new-section">This ZIP code has produced</p>
-        <h2 class="units">21 units</h2>
-        <p id="of-housing">of housing in 2019.</p>
-
-        <p><a href="#">View details on 90007</a></p>
-      </div>
-    </section>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
