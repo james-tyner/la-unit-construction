@@ -1,0 +1,40 @@
+.article-main {
+  width:90vw;
+  margin-left:5vw;
+  margin-top:5em;
+
+  .article-title {
+    font-size:3em;
+    margin-bottom:0;
+  }
+
+  .article-container {
+    width:100%;
+    max-width:600px;
+    margin:auto;
+
+    p {
+      line-height:1.75em;
+    }
+
+    .chart-container {
+      position:relative;
+      width:100%;
+    }
+  }
+
+  footer {
+    position:relative;
+    top:4em;
+    max-width:600px;
+    margin:auto;
+
+    small {
+      display:block;
+
+      &:last-of-type {
+        padding-bottom:2em;
+      }
+    }
+  }
+}

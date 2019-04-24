@@ -3,5 +3,6 @@ def getAndSend():
     import lib.obtainData # fill in the projects table
     import lib.createGeoJSON # create GeoJSON files for each ZIP code
     import lib.calculateYearlyUnits # update the number of units per year
+    import lib.createSummaryFile # update the summary file used by the homepage
 
     import runSendEmail

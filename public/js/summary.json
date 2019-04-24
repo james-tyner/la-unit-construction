@@ -25,10 +25,45 @@
       "units": 2213, 
       "description": "Hollywood ", 
       "zip": 90028
+    }, 
+    {
+      "units": 1887, 
+      "description": "LAX Area / Westchester ", 
+      "zip": 90045
+    }, 
+    {
+      "units": 1426, 
+      "description": "Echo Park / Silverlake ", 
+      "zip": 90026
+    }, 
+    {
+      "units": 1419, 
+      "description": "Woodland Hills ", 
+      "zip": 91367
+    }, 
+    {
+      "units": 1398, 
+      "description": "Civic Center / Chinatown ", 
+      "zip": 90012
+    }, 
+    {
+      "units": 1397, 
+      "description": "Sawtelle / West LA ", 
+      "zip": 90025
     }
   ], 
-  "sum": 62489, 
+  "average": 545.1652173913044, 
   "median-income": 54501, 
+  "sum": {
+    "2016": 14604, 
+    "2017": 14656, 
+    "2018": 17090, 
+    "2019": 5254, 
+    "all_time": 62694, 
+    "2013": 761, 
+    "2014": 2326, 
+    "2015": 8003
+  }, 
   "least-five": [
     {
       "units": 0, 
@@ -54,6 +89,56 @@
       "units": 1, 
       "description": "La Crescenta", 
       "zip": 91214
+    }, 
+    {
+      "units": 1, 
+      "description": "Beverly Hills", 
+      "zip": 90212
+    }, 
+    {
+      "units": 2, 
+      "description": "Glendale (Tropico)", 
+      "zip": 91205
+    }, 
+    {
+      "units": 11, 
+      "description": "Rancho Palos Verdes", 
+      "zip": 90732
+    }, 
+    {
+      "units": 17, 
+      "description": "City Terrace", 
+      "zip": 90063
+    }, 
+    {
+      "units": 17, 
+      "description": "San Fernando", 
+      "zip": 91340
+    }, 
+    {
+      "units": 18, 
+      "description": "Santa Monica", 
+      "zip": 90402
+    }, 
+    {
+      "units": 20, 
+      "description": "Playa del Rey ", 
+      "zip": 90293
+    }, 
+    {
+      "units": 35, 
+      "description": "Granada Hills ", 
+      "zip": 91344
+    }, 
+    {
+      "units": 37, 
+      "description": "Mission Hills ", 
+      "zip": 91345
+    }, 
+    {
+      "units": 38, 
+      "description": "West Hills ", 
+      "zip": 91307
     }
   ], 
   "median-monthly-costs": 1467
