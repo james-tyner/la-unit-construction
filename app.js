@@ -38,9 +38,6 @@ app.get('/', function (req, res) {
           val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
         }
         return val;
-      },
-      truncate:function(val){
-        return val.slice(0,6);
       }
     }
   });

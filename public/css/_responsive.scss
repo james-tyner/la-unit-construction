@@ -152,6 +152,16 @@ body {
       grid-row-end:6;
     }
   }
+
+  #home-main {
+    #summary {
+      .summary-box {
+        .reference {
+          display:block;
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width:610px){

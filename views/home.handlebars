@@ -118,26 +118,32 @@
       </section>
 
       <div id="summary">
-        <div class="summary-box">
+        <a href="/articles/activity" class="summary-box has-article">
           <h1>{{commaSeparated summaryData.sum.all_time}}</h1>
           <h3>housing units approved in the city of LA since 2013</h3>
-        </div>
-        <div class="summary-box">
+          <p class="reference">View article for more info</p>
+        </a>
+
+        <a href="/articles/activity" class="summary-box has-article">
           <h2>Most active ZIP codes</h2>
           {{#each summaryData.top-five}}
             <div class="top-five">
               <h3>{{this.zip}} - {{this.description}}</h3> <p>{{commaSeparated this.units}} units</p>
             </div>
           {{/each}}
-        </div>
-        <div class="summary-box">
+          <p class="reference">View article for more info</p>
+        </a>
+
+        <a href="/articles/activity" class="summary-box has-article">
           <h2>Least active ZIP codes</h2>
           {{#each summaryData.least-five}}
             <div class="top-five">
               <h3>{{this.zip}} - {{this.description}}</h3> <p>{{commaSeparated this.units}} units</p>
             </div>
           {{/each}}
-        </div>
+          <p class="reference">View article for more info</p>
+        </a>
+
         <div class="summary-box">
           <h1>{{commaSeparated tocData.toc-units}}</h1>
           <h3>units approved within ½ mi. of Metro Rail stations since 2013</h3>

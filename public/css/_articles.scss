@@ -1,11 +1,16 @@
 .article-main {
   width:90vw;
   margin-left:5vw;
-  margin-top:5em;
+  margin-top:3em;
 
   .article-title {
     font-size:3em;
+    margin-top:0;
     margin-bottom:0;
+  }
+
+  .byline {
+    color:$blue;
   }
 
   .article-container {
@@ -15,6 +20,10 @@
 
     p {
       line-height:1.75em;
+    }
+
+    h3 {
+      margin-top:3.5em;
     }
 
     .chart-container {

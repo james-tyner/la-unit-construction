@@ -197,6 +197,7 @@ header {
     flex-wrap:wrap;
 
     .summary-box {
+      display:block;
       border-bottom-width:1px;
       border-bottom-style:solid;
       border-bottom-color:lightgray;
@@ -241,7 +242,16 @@ header {
         p {
           margin-left:8px;
           font-size:0.8em;
+          font-weight:400;
         }
+      }
+
+      .reference {
+        font-weight:400;
+        color:$purple;
+        display:none;
+        font-size:0.8em;
+        text-transform:uppercase;
       }
     }
   }

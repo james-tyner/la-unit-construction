@@ -1,3 +1,11 @@
+$(".has-article").on("mouseenter", function(){
+  $(".reference", this).show();
+});
+
+$(".has-article").on("mouseleave", function(){
+  $(".reference", this).hide();
+});
+
 const validZips = [
   90042,
   90028,
