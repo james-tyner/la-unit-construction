@@ -134,16 +134,19 @@ function calculateTOCYear(year){
     let projects = JSON.parse(projectsFile);
 
     // Filter the permits by date
-    projects.features = projects.features.filter(feature => feature.properties.date.startsWith(`${year}`));
+    let filteredFeatures = projects.features.filter(feature => feature.properties.date.startsWith(`${year}`));
+
+    // Filter the permits to include only projects with at least 5 units, which are the only ones eligible for TOC incentives
+    projects.features.filter(feature => feature.properties.units >= 5);
 
     // create a total for the city to compare against
-    for (var project of projects.features){
+    for (var project of filteredFeatures){
       totalCityUnits += project.properties.units;
       totalCityProjects++;
     }
 
     // turn the permits into a feature collection
-    projectsCollection = turf.featureCollection(projects.features);
+    projectsCollection = turf.featureCollection(filteredFeatures);
 
     // Open the cleaned Metro file and create the half-mile circles, then export as a feature collection
     let metroStationsFile = fs.readFileSync("geojson/Metro_Rail_cleaned.geojson");
@@ -199,8 +202,11 @@ function calculateTOCTotal(){
     let projectsFile = fs.readFileSync(`geojson/${zip}.geojson`);
     let projects = JSON.parse(projectsFile);
 
+    // Filter the permits to include only projects with at least 5 units, which are the only ones eligible for TOC incentives
+    projects.features.filter(feature => feature.properties.units >= 5);
+
     // create a total for the city to compare against
-    for (var project of projects.features){
+    for (var project of filteredFeatures){
       totalCityUnits += project.properties.units;
       totalCityProjects++;
     }
@@ -259,6 +265,9 @@ function calculateTOCTotal(){
   });
 }
 
+calculateTOCYear(2013);
+calculateTOCYear(2014);
+calculateTOCYear(2015);
 calculateTOCYear(2016);
 calculateTOCYear(2018);
 calculateTOCTotal();
