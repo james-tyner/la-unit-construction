@@ -18,7 +18,17 @@ var https = require('https');
 
 require('dotenv').load();
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+  defaultLayout: 'main',
+  helpers:{
+    commaSeparated:function(val){
+      while (/(\d+)(\d{3})/.test(val.toString())){
+        val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+      }
+      return val;
+    }
+  }
+}));
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
@@ -31,20 +41,16 @@ app.get('/', function (req, res) {
   res.render('home', {
     layout: false,
     summaryData:summaryData,
-    tocData:tocData,
-    helpers:{
-      commaSeparated:function(val){
-        while (/(\d+)(\d{3})/.test(val.toString())){
-          val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
-        }
-        return val;
-      }
-    }
+    tocData:tocData
   });
 });
 
 app.get("/articles/activity", function(req, res){
   res.render('articles/activity-overview', {layout:false})
+})
+
+app.get("/articles/TOC", function(req, res){
+  res.render("articles/TOC", {layout:false})
 })
 
 app.use(compression());

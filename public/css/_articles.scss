@@ -29,6 +29,26 @@
     .chart-container {
       position:relative;
       width:100%;
+
+      table {
+        border-collapse:collapse;
+
+        th {
+          text-align:left;
+          padding:0.75em;
+          font-weight:bold;
+          font-size:0.8em;
+        }
+
+        td {
+          border:1px solid $gray;
+          padding:0.75em;
+        }
+
+        td[colspan="3"]{
+          font-style:italic;
+        }
+      }
     }
   }
 
