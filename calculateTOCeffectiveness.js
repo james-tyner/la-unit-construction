@@ -136,9 +136,6 @@ function calculateTOCYear(year){
     // Filter the permits by date
     let filteredFeatures = projects.features.filter(feature => feature.properties.date.startsWith(`${year}`));
 
-    // Filter the permits to include only projects with at least 5 units, which are the only ones eligible for TOC incentives
-    projects.features.filter(feature => feature.properties.units >= 5);
-
     // create a total for the city to compare against
     for (var project of filteredFeatures){
       totalCityUnits += project.properties.units;
@@ -202,11 +199,8 @@ function calculateTOCTotal(){
     let projectsFile = fs.readFileSync(`geojson/${zip}.geojson`);
     let projects = JSON.parse(projectsFile);
 
-    // Filter the permits to include only projects with at least 5 units, which are the only ones eligible for TOC incentives
-    projects.features.filter(feature => feature.properties.units >= 5);
-
     // create a total for the city to compare against
-    for (var project of filteredFeatures){
+    for (var project of projects.features){
       totalCityUnits += project.properties.units;
       totalCityProjects++;
     }
