@@ -2,14 +2,24 @@
   "median-percentage": 32.3, 
   "top-five": [
     {
-      "units": 4558, 
+      "units": 4560, 
       "description": "Downtown LA ", 
       "zip": 90015
     }, 
     {
-      "units": 2661, 
+      "units": 2899, 
+      "description": "Civic Center / Chinatown ", 
+      "zip": 90012
+    }, 
+    {
+      "units": 2675, 
       "description": "Playa Vista", 
       "zip": 90094
+    }, 
+    {
+      "units": 2373, 
+      "description": "North Hollywood ", 
+      "zip": 91601
     }, 
     {
       "units": 2299, 
@@ -17,52 +27,42 @@
       "zip": 90014
     }, 
     {
-      "units": 2260, 
-      "description": "North Hollywood ", 
-      "zip": 91601
-    }, 
-    {
       "units": 2213, 
       "description": "Hollywood ", 
       "zip": 90028
     }, 
     {
-      "units": 1887, 
+      "units": 1892, 
       "description": "LAX Area / Westchester ", 
       "zip": 90045
     }, 
     {
-      "units": 1426, 
+      "units": 1521, 
+      "description": "Canoga Park ", 
+      "zip": 91303
+    }, 
+    {
+      "units": 1489, 
       "description": "Echo Park / Silverlake ", 
       "zip": 90026
     }, 
     {
-      "units": 1419, 
-      "description": "Woodland Hills ", 
-      "zip": 91367
-    }, 
-    {
-      "units": 1398, 
-      "description": "Civic Center / Chinatown ", 
-      "zip": 90012
-    }, 
-    {
-      "units": 1397, 
+      "units": 1430, 
       "description": "Sawtelle / West LA ", 
       "zip": 90025
     }
   ], 
-  "average": 545.1652173913044, 
+  "average": 583.0434782608696, 
   "median-income": 54501, 
   "sum": {
-    "2016": 14604, 
-    "2017": 14656, 
-    "2018": 17090, 
-    "2019": 5254, 
-    "all_time": 62694, 
-    "2013": 761, 
-    "2014": 2326, 
-    "2015": 8003
+    "2016": 13036, 
+    "2017": 14227, 
+    "2018": 17691, 
+    "2019": 11568, 
+    "all_time": 67050, 
+    "2013": 759, 
+    "2014": 2319, 
+    "2015": 7922
   }, 
   "least-five": [
     {
@@ -87,11 +87,6 @@
     }, 
     {
       "units": 1, 
-      "description": "La Crescenta", 
-      "zip": 91214
-    }, 
-    {
-      "units": 1, 
       "description": "Beverly Hills", 
       "zip": 90212
     }, 
@@ -101,22 +96,22 @@
       "zip": 91205
     }, 
     {
-      "units": 11, 
+      "units": 2, 
+      "description": "La Crescenta", 
+      "zip": 91214
+    }, 
+    {
+      "units": 15, 
       "description": "Rancho Palos Verdes", 
       "zip": 90732
     }, 
     {
-      "units": 17, 
-      "description": "City Terrace", 
-      "zip": 90063
-    }, 
-    {
-      "units": 17, 
+      "units": 18, 
       "description": "San Fernando", 
       "zip": 91340
     }, 
     {
-      "units": 18, 
+      "units": 19, 
       "description": "Santa Monica", 
       "zip": 90402
     }, 
@@ -126,19 +121,24 @@
       "zip": 90293
     }, 
     {
+      "units": 24, 
+      "description": "City Terrace", 
+      "zip": 90063
+    }, 
+    {
       "units": 35, 
       "description": "Granada Hills ", 
       "zip": 91344
     }, 
     {
-      "units": 37, 
-      "description": "Mission Hills ", 
-      "zip": 91345
-    }, 
-    {
       "units": 38, 
       "description": "West Hills ", 
       "zip": 91307
+    }, 
+    {
+      "units": 48, 
+      "description": "Mission Hills ", 
+      "zip": 91345
     }
   ], 
   "median-monthly-costs": 1467
