@@ -1,5 +1,9 @@
 # la-unit-construction
 
+# Important note:
+This project originally ran on a DigitalOcean droplet, but the cost of maintaining it has become a burden. I thought I could rewrite it to exist as a static site, but found that the site functionality would be almost nonexistent if I did so (for example, you would no longer be able to search for a ZIP code). I decided to take the project offline completely. Perhaps in the future I'll rewrite it to be PHP-based so it can run on my web hosting with my regular website.
+
+
 *Los Angeles has a housing shortage. How well has it been able to construct places to live?*
 
 ### Next steps
@@ -25,7 +29,7 @@
 
 3. A one-time Python program calculated demographics and housing cost data for each ZIP code using 2017 American Communities Survey data from the US Census Bureau and stored them in a database
 	* Another script connected ZIP codes to neighborhood names and associated them with this database using a report from LA County
-	
+
 4. A Node.js & Express application serves as the backend for the [website](https://additup.jamestyner.com)
 	* Handles user subscriptions to the newsletter and validation of emails and ZIP codes (only LA city ZIPs allowed)
 	* Handles page routing and providing dynamic information (such as validation errors) to the page
@@ -33,13 +37,13 @@
 
 5. Each week, after the data is obtained, another recurring Python script grabs relevant data and the projects approved in the past week. It compiles this into template data that is submitted to SendGrid and sent using a dynamic transactional template
 
-6. A [page with information for each ZIP code](https://additup.jamestyner.com/info.html?zip=90007) is built using [VueJS](https://vuejs.org/) and [Mapbox.js](https://docs.mapbox.com/mapbox.js/api/v3.2.0/): 
+6. A [page with information for each ZIP code](https://additup.jamestyner.com/info.html?zip=90007) is built using [VueJS](https://vuejs.org/) and [Mapbox.js](https://docs.mapbox.com/mapbox.js/api/v3.2.0/):
 	* Project geographic data is obtained using [axios](https://github.com/axios/axios), Express, and the .geojson files generated earlier, then displayed through Mapbox
 	* VueJS uses the Node endpoints to obtain, filter, and display demographic data and a project list
 
 7. A [homepage](https://additup.jamestyner.com) is built using Handlebars and Mapbox.js
 	* LA County ZIP code geographic data is saved in a static .geojson file on the server. When the page loads, it's merged with the latest unit counts for each ZIP on the server
-	* axios pulls this latest information and feeds it as geojson to Mapbox, which then displays it as a chloropleth map 
+	* axios pulls this latest information and feeds it as geojson to Mapbox, which then displays it as a chloropleth map
 
 ## Sources
   * LA City open data portal

@@ -96,21 +96,21 @@
       <section id="email-subscribe">
         <div>
           <p>Enter your email address below to be notified each week of the housing projects coming to a ZIP code you care about.</p>
-          <form action="../email/subscribe" method="post">
+          <form>
             <div class="form-row">
               <label for="email">Email</label><br>
-                <input type="text" id="email" name="email">
+                <input type="text" id="email" name="email" disabled>
             </div>
             <div class="form-row">
               <label for="autocomplete">ZIP</label><br>
-                <input type="text" id="autocomplete" name="zip">
+                <input type="text" id="autocomplete" name="zip" disabled>
             </div>
             {{# if errors }}
               {{# each errors }}
                 <small style="color:red;">{{ this.msg }}</small><br>
               {{/each}}
             {{/if}}
-            <button type="submit">Submit</button>
+            <button type="submit" disabled>Submit</button>
           </form>
           <p id="view-sample"><a target="_blank" href="/email-sample.html">View sample email</a></p>
           <small>Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small>
