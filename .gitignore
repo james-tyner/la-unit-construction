@@ -1,10 +1,8 @@
-tester.py
 .DS_STORE
-1031552_MasterZipCodes*
-factfinder-data
 node_modules
 permit_data.db
 .env
+*/.env
 email.db
 futureIndex.html
 encryption/*
@@ -17,3 +15,27 @@ public/static-maps
 runForceEmailRobert*
 runForceRobertTest*
 toc_projects/*
+
+# Compiled data, lol
+data/factfinder-data/*
+data/toc-analysis/toc_projects/*
+
+# Distribution / packaging, from GitHub
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST

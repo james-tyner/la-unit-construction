@@ -1,8 +1,13 @@
 # la-unit-construction
 
-## The live website for this project has been taken offline.
-
 *Los Angeles has a housing shortage. How well has it been able to construct places to live?*
+
+
+---
+
+Surprise! I’ve revived the project! Much of the information below is inaccurate, and I’ll update it once I get this all figured out.
+
+---
 
 ### Next steps
 - [x] Connect to Socrata API
