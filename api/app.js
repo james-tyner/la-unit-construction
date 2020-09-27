@@ -1,65 +1,20 @@
-const sqlite3 = require('sqlite3').verbose();
 const axios = require('axios');
+
+const {Firestore} = require('@google-cloud/firestore');
+const {Storage} = require("@google-cloud/storage");
 
 let compression = require("compression");
 let express = require("express");
 let app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded());
-var exphbs  = require('express-handlebars');
 
 const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
 var fs = require('fs');
-var key = fs.readFileSync('encryption/private.key');
-var cert = fs.readFileSync( 'encryption/certificate.crt' );
-var https = require('https');
 
 require('dotenv').load();
-
-app.engine('handlebars', exphbs({
-  defaultLayout: 'main',
-  helpers:{
-    commaSeparated:function(val){
-      while (/(\d+)(\d{3})/.test(val.toString())){
-        val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
-      }
-      return val;
-    }
-  }
-}));
-app.set('view engine', 'handlebars');
-
-app.get('/', function (req, res) {
-  let summaryFile = fs.readFileSync("public/js/summary.json");
-  let summaryData = JSON.parse(summaryFile);
-
-  let tocFile = fs.readFileSync("public/js/toc-units.json");
-  let tocData = JSON.parse(tocFile);
-
-  res.render('home', {
-    layout: false,
-    summaryData:summaryData,
-    tocData:tocData
-  });
-});
-
-app.get("/articles/activity", function(req, res){
-  res.render('articles/activity-overview', {layout:false})
-})
-
-app.get("/articles/TOC", function(req, res){
-  res.render("articles/TOC", {layout:false})
-})
-
-app.use(compression());
-app.use(express.static("public"));
-
-// axios.interceptors.request.use(request => {
-//   console.log('Starting Request', request)
-//   return request
-// });
 
 const validZips = [
   90042,
@@ -178,22 +133,6 @@ const validZips = [
   90212,
   91505
 ];
-
-
-// For info page
-app.get("/info/:zip", function(req, res){
-  res.redirect(`../info.html?zip=${req.params.zip}`);
-});
-
-app.post("/info/search", [check('zip').isLength(5).isIn(validZips).trim().withMessage("That ZIP code isn’t listed in the city of Los Angeles.")], function(request, response){
-  const errors = validationResult(request);
-  if (!errors.isEmpty()) {
-    console.log(errors);
-    return response.end();
-  }
-
-  return response.redirect(`../info.html?zip=${request.body.zip}`);
-});
 
 
 // Returns array of ZIP objects containing neighborhood descriptions
@@ -459,7 +398,4 @@ app.post('/email/subscribe', [
   response.redirect("../subscribe-success.html");
 });
 
-https.createServer({key: key, cert: cert}, app).listen(443);
-
-var http = require('http');
-http.createServer(app).listen(80);
+app.listen(process.env.PORT || 8000);

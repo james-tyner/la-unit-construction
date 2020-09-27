@@ -5,8 +5,11 @@ import os
 
 from google.cloud import firestore
 
+now = datetime.datetime.now()
+currentYear = now.year
+
 # response is capped at 40,000 records. Just need to change limit parameter to get more
-response = requests.get("https://data.lacity.org/resource/75vw-v4fk.json?$limit=40000&$where=permit_type = 'Bldg-New' AND permit_sub_type not in ('Commercial')", headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
+response = requests.get(f"https://data.lacity.org/resource/cpkv-aajs.json?$limit=40000&$where=permit_type = 'Bldg-New' AND issue_date > {currentYear}-01-01T00:00:00.000", headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
 
 jsonData = json.loads(response.text)
 
@@ -62,13 +65,6 @@ for project in jsonData:
     else:
         Coordinates = ""
 
-    # if project.get("work_description"):
-    #     Description = project["work_description"]
-    #     Description = unicodedata.normalize('NFKD', Description).encode('ascii','ignore')
-    #     Description = Description.replace('"',"'")
-    # else:
-    #     Description = ""
-
     data = {
         "type":project["permit_sub_type"],
         "date":newDate,
@@ -81,4 +77,5 @@ for project in jsonData:
         "description":project["work_description"]
     }
 
-    database.collection("projects").document(project["zip_code"]).collection("projects").add(data)
+    # modified this structure… now projects are grouped by year in Firestore, which makes it easy to delete everything from the current year and minimize the new stuff being downloaded, memory usage, etc.
+    database.collection("projects").document(project["zip_code"]).collection(year).add(data)

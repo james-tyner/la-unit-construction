@@ -15,6 +15,7 @@ public/static-maps
 runForceEmailRobert*
 runForceRobertTest*
 toc_projects/*
+scraper/bin/*
 
 # Compiled data, lol
 data/factfinder-data/*
@@ -39,3 +40,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# VS Code
+launch.json

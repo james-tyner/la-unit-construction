@@ -17,6 +17,7 @@ public/static-maps
 runForceEmailRobert*
 runForceRobertTest*
 toc_projects/*
+bin/*
 
 # Compiled data, lol
 data/factfinder-data/*

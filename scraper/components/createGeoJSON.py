@@ -17,6 +17,7 @@ database = firestore.Client()
 for ZIP in ZIPlist:
     allZIPPoints = []
 
+    # TODO: Rewrite this to accommodate the new year-divided structure for projects
     projects = database.collection("projects").document(str(ZIP)).collection("projects").stream()
 
     for result in projects:

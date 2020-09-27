@@ -26,6 +26,8 @@ ZIPlist = ZIPlist.splitlines()
 for ZIP in ZIPlist:
     # Iterate through all projects in the ZIP, then add numbers for each year and all years
 
+    # TODO: Rewrite everything in here to match the new structure, which divides projects by year
+
     unitCounts = {}
 
     for year in years:
