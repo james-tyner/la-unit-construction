@@ -78,4 +78,10 @@ for project in jsonData:
     }
 
     # modified this structure… now projects are grouped by year in Firestore, which makes it easy to delete everything from the current year and minimize the new stuff being downloaded, memory usage, etc.
-    database.collection("projects").document(project["zip_code"]).collection(year).add(data)
+    # Also, projects are now numbered by their PCIS permit number, from the city’s system. So we’ll be checking for duplicates and therefore avoiding the need to delete and reupload things
+    doc_ref = database.collection("projects").document(project["zip_code"]).collection(year).doc(project["pcis_permit"])
+    doc = doc_ref.get()
+    if doc.exists:
+        pass
+    else:
+        database.collection("projects").document(project["zip_code"]).collection(year).doc(project["pcis_permit"]).set()
