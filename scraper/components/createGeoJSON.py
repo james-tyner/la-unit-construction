@@ -17,36 +17,38 @@ database = firestore.Client()
 for ZIP in ZIPlist:
     allZIPPoints = []
 
-    # TODO: Rewrite this to accommodate the new year-divided structure for projects
-    projects = database.collection("projects").document(str(ZIP)).collection("projects").stream()
+    subcollections = database.collection("projects").document(ZIP).collections()
 
-    for result in projects:
-        project = result.to_dict()
+    for year in subcollections:
+        projects = database.collection("projects").document(str(ZIP)).collection(year).stream()
 
-        if project["type"] != None and project["latlong"] not in ("", None, "null"):
-            GeoCoordinates = ast.literal_eval(project["latlong"])
-            GeoCoordinates = GeoCoordinates['coordinates']
-            Geometry = {
-                "type":"Point",
-                "coordinates":GeoCoordinates
-            }
+        for result in projects:
+            project = result.to_dict()
 
-            if project["units"] in ("", None, "null"):
-                Units = 0
-                Icon = "village"
-                Color = "#754aed" # purple
-            elif int(project["units"]) >= 100:
-                Units = int(project["units"])
-                Icon = "star"
-                Color = "#1dcc70" # green
-            else:
-                Units = int(project["units"])
-                Icon = Units
-                Color = "#754aed" # purple
+            if project["type"] != None and project["latlong"] not in ("", None, "null"):
+                GeoCoordinates = ast.literal_eval(project["latlong"])
+                GeoCoordinates = GeoCoordinates['coordinates']
+                Geometry = {
+                    "type":"Point",
+                    "coordinates":GeoCoordinates
+                }
 
-            newFeature = geojson.Feature(geometry=Geometry, properties={"date":project["date"], "units":Units, "address":project["address"],"zip":project["ZIP"],"marker-color":Color,"marker-symbol":Icon,"marker-size":"small"})
+                if project["units"] in ("", None, "null"):
+                    Units = 0
+                    Icon = "village"
+                    Color = "#754aed" # purple
+                elif int(project["units"]) >= 100:
+                    Units = int(project["units"])
+                    Icon = "star"
+                    Color = "#1dcc70" # green
+                else:
+                    Units = int(project["units"])
+                    Icon = Units
+                    Color = "#754aed" # purple
 
-            allZIPPoints.append(newFeature)
+                newFeature = geojson.Feature(geometry=Geometry, properties={"date":project["date"], "units":Units, "address":project["address"],"zip":project["ZIP"],"marker-color":Color,"marker-symbol":Icon,"marker-size":"small"})
+
+                allZIPPoints.append(newFeature)
 
     newGeoJSONFile = tempfile.TemporaryFile("w+")
     ZIPcollection = geojson.FeatureCollection(allZIPPoints)

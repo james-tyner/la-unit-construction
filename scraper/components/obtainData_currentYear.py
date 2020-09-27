@@ -32,7 +32,7 @@ for project in jsonData:
         project["of_stories"] = None
 
     # reformat the status date to match SQL format for dates
-    ogDate = project["status_date"]
+    ogDate = project["issue_date"]
     newDate = datetime.datetime.fromisoformat(ogDate)
 
     year = newDate.year

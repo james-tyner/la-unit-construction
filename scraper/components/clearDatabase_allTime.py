@@ -11,7 +11,7 @@ database = firestore.Client()
 
 for ZIP in ZIPlist:
     # get list of subcollections of that ZIP in Firestore
-    subcollections = database.collection("projects").document(ZIP).listCollections()
+    subcollections = database.collection("projects").document(ZIP).collections()
 
     for collection in subcollections:
         projects = database.collection("projects").document(ZIP).collection(collection.id).stream()
