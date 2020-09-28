@@ -42,4 +42,4 @@ share/python-wheels/
 MANIFEST
 
 # VS Code
-launch.json
+.vscode*

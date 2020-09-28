@@ -99,3 +99,5 @@ if len(modified_zips) > 0:
 
     from calculateYearlyUnits import calculate_units
     calculate_units(modified_zips)
+
+print(f"Modified {len(modified_zips)} ZIP codes")
