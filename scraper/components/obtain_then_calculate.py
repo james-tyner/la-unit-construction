@@ -93,9 +93,9 @@ for project in jsonData:
 
 
 # call createGeoJSON and calculateYearlyUnits only for the data that was modified in the past week… should be much faster
+if len(modified_zips) > 0:
+    from createGeoJSON import create_files
+    create_files(modified_zips)
 
-from createGeoJSON import create_files
-create_files(modified_zips)
-
-from calculateYearlyUnits import calculate_units
-calculate_units(modified_zips)
+    from calculateYearlyUnits import calculate_units
+    calculate_units(modified_zips)
