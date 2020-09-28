@@ -63,6 +63,7 @@ for project in jsonData:
         Coordinates = ""
 
     data = {
+        "pcis_permit":project["pcis_permit"],
         "type":project["permit_sub_type"],
         "date":newDate,
         "year":year,
@@ -75,4 +76,4 @@ for project in jsonData:
     }
 
     # modified this structure… now projects are grouped by year in Firestore, which makes it easy to delete everything from the current year and minimize the new stuff being downloaded, memory usage, etc.
-    database.collection("projects").document(project["zip_code"]).collection(year).add(data)
+    database.collection("projects").document(project["zip_code"]).collection(str(year)).document(project["pcis_permit"]).set(data)
