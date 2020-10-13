@@ -3,6 +3,9 @@ const axios = require('axios');
 const {Firestore} = require('@google-cloud/firestore');
 const {Storage} = require("@google-cloud/storage");
 
+const firestore = new Firestore();
+const storage = new Storage();
+
 let compression = require("compression");
 let express = require("express");
 let app = express();
@@ -136,54 +139,33 @@ const validZips = [
 
 
 // Returns array of ZIP objects containing neighborhood descriptions
-app.get('/api/neighborhoods', function(request, response){
-  let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  });
+// Rebuilt? yes
+// TODO: The code below for /api/neighborhoods works but it’s WAY too slow… may need to create a JSON file on Cloud Storage as part of the data obtaining process and just pass that file here
+app.get('/api/neighborhoods', async function(request, response){
+  zipHolder = []
 
-  let sql = `SELECT * FROM attributes LEFT JOIN costs ON attributes.ZIP = costs.ZIP ORDER BY attributes.ZIP`;
+  let zips = await firestore.collection("projects").listDocuments();
 
-  db.all(sql,[],(err, rows ) => {
-    if (err) {
-      throw err;
-    }
-    zipHolder = [];
-    rows.forEach((row) => {
-      zipHolder.push({
-        "zipCode":row.ZIP,
-        "description":row.Description,
-        "units":{
-          "unitsAll":row.UnitsAll,
-          "units2019":row.Units2019,
-          "units2018":row.Units2018,
-          "units2017":row.Units2017,
-          "units2016":row.Units2016,
-          "units2015":row.Units2015,
-          "units2014":row.Units2014,
-          "units2013":row.Units2013
-        },
-        "costs":{
-          "medianIncome":row.MedIncome,
-          "medianHousingCost":row.MedHousingCost,
-          "percentage":row.Percentage
-        }
-      });
-    });
+  for (let zip of zips){
+    let zipData = []
+    let zipDocs = await zip.collection("attributes").listDocuments();
+    console.log(zipDocs);
 
-    response.json(zipHolder);
-  });
+    zipDocs.forEach(docRef => {
+      docRef.get().then(docSnapshot => {
+        zipData.push(docSnapshot.data())
+      })
+    })
 
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  });
+    zipHolder.push(zipData)
+  }
+
+  response.json(zipHolder);
 });
 
 
 // Returns array of information about a ZIP using the param in the request
+// Rebuilt? no
 app.get('/api/neighborhoods/:zip', function(request, response){
   let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
     if (err) {
@@ -245,12 +227,23 @@ app.get('/api/neighborhoods/:zip', function(request, response){
 
 
 // Use for maps
-// Need to add the same 50 at a time logic as the projects list
-app.get("/api/neighborhoods/:zip/geojson", function(request, response){
-  let zipGeo = fs.readFileSync(`geojson/${request.params.zip}.geojson`);
-  return response.json(JSON.parse(zipGeo));
+// Rebuilt? yes
+app.get("/api/neighborhoods/:zip/geojson", async function(request, response){
+  var date = new Date();
+  date.setHours(date.getHours() + 1); // 1 hour from now
+
+  await storage.bucket("add-it-up-290116-data").file(`geojson/${request.params.zip}.geojson`).getSignedUrl({
+    action:"read",
+    expires:date.toISOString(),
+  }).then(data => {
+    url = data[0];
+    return response.redirect(url);
+  })
 })
 
+
+// Not sure what this is used for
+// Rebuilt? no
 app.get("/api/cityGeoJSON", function(request, response){
   var zipCodeInfo;
 
@@ -277,7 +270,9 @@ app.get("/api/cityGeoJSON", function(request, response){
   })
 });
 
+
 // Return shape of the city limits as a polygon
+// Rebuilt? no
 app.get("/api/cityShape", function(request, response){
   cityGeo = fs.readFileSync("geojson/LA_City_simplified.geojson");
   cityGeo = JSON.parse(cityGeo);
@@ -285,7 +280,9 @@ app.get("/api/cityShape", function(request, response){
   return response.json(cityGeo);
 });
 
+
 // Return ZIP code boundary for one ZIP code
+// Rebuilt? no
 app.get("/api/cityGeoJSON/:zip", function(request, response){
   var zipCodeInfo;
 
@@ -298,17 +295,8 @@ app.get("/api/cityGeoJSON/:zip", function(request, response){
 });
 
 
-// Return Metro stations GeoJSON
-app.get("/api/metroJSON", function(request, response){
-  metroGeo = fs.readFileSync("geojson/Metro_Rail_cleaned.geojson")
-  metroGeo = JSON.parse(metroGeo);
-
-  return response.json(metroGeo);
-})
-
-
 // Return all projects for one ZIP code
-// Here you set it to return 50 at a time. The offset parameter will tell the Socrata API which 50 to pull. In your page, use ?page=NUMBER to return the proper page, or leave it blank to get the most recent 50
+// Rebuilt? no
 app.get('/api/projects/:zip', function(req, res){
   let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
     if (err) {
@@ -346,6 +334,8 @@ app.get('/api/projects/:zip', function(req, res){
 });
 
 
+// Saves subscriber email into database
+// Rebuilt? no
 app.post('/email/subscribe', [
   check('email').isEmail().normalizeEmail().withMessage("That’s not a valid email address."),
   check('zip').isLength(5).isIn(validZips).trim().withMessage("That ZIP code isn’t listed in the city of Los Angeles.")

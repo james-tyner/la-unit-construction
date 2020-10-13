@@ -2,7 +2,7 @@
 node_modules
 permit_data.db
 .env
-*/.env
+**/.env
 email.db
 futureIndex.html
 encryption/*
@@ -15,7 +15,8 @@ public/static-maps
 runForceEmailRobert*
 runForceRobertTest*
 toc_projects/*
-scraper/bin/*
+**/bin/*
+pip*
 
 # Compiled data, lol
 data/factfinder-data/*

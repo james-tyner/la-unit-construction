@@ -2,14 +2,17 @@ import requests
 import json
 import datetime
 import os
+import sys
 
 from google.cloud import firestore
 
 now = datetime.datetime.now()
 week_ago = now - datetime.timedelta(days=7)
 
+request_url = f"https://data.lacity.org/resource/cpkv-aajs.json?$limit=40000&$where=permit_type = 'Bldg-New' AND issue_date > '{week_ago.year}-{week_ago.month}-{week_ago.day}T00:00:00.000'"
+
 # response is capped at 40,000 records. Just need to change limit parameter to get more
-response = requests.get(f"https://data.lacity.org/resource/cpkv-aajs.json?$limit=40000&$where=permit_type = 'Bldg-New' AND issue_date > {week_ago.year}-{week_ago.month}-{week_ago.day}T00:00:00.000", headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
+response = requests.get(request_url, headers={"X-App-Token": os.environ.get('SOCRATA_API_KEY')})
 
 jsonData = json.loads(response.text)
 
@@ -86,6 +89,7 @@ for project in jsonData:
     doc = doc_ref.get()
     if doc.exists:
         pass
+        print(f"skipped {project['pcis_permit']}")
     else:
         database.collection("projects").document(project["zip_code"]).collection(str(year)).document(project["pcis_permit"]).set(data)
 
@@ -94,6 +98,8 @@ for project in jsonData:
 
 # call createGeoJSON and calculateYearlyUnits only for the data that was modified in the past week… should be much faster
 if len(modified_zips) > 0:
+    print(f"current path is {sys.path}")
+
     from createGeoJSON import create_files
     create_files(modified_zips)
 
