@@ -16,6 +16,7 @@ const { check, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
 var fs = require('fs');
+const { zip } = require('d3');
 
 require('dotenv').load();
 
@@ -137,10 +138,23 @@ const validZips = [
   91505
 ];
 
+async function getUrlForFileFromBucket(path){
+  var date = new Date();
+  date.setHours(date.getHours() + 1); // 1 hour from now
+
+  await storage.bucket("add-it-up-290116-data").file(path).getSignedUrl({
+    action: "read",
+    expires: date.toISOString(),
+  }).then(data => {
+    url = data[0];
+    return url;
+  })
+}
+
 
 // Returns array of ZIP objects containing neighborhood descriptions
 // Rebuilt? yes
-// TODO: The code below for /api/neighborhoods works but it’s WAY too slow… may need to create a JSON file on Cloud Storage as part of the data obtaining process and just pass that file here
+// Note: this endpoint works, but it's VERY slow
 app.get('/api/neighborhoods', async function(request, response){
   zipHolder = []
 
@@ -149,7 +163,6 @@ app.get('/api/neighborhoods', async function(request, response){
   for (let zip of zips){
     let zipData = []
     let zipDocs = await zip.collection("attributes").listDocuments();
-    console.log(zipDocs);
 
     zipDocs.forEach(docRef => {
       docRef.get().then(docSnapshot => {
@@ -164,82 +177,46 @@ app.get('/api/neighborhoods', async function(request, response){
 });
 
 
-// Returns array of information about a ZIP using the param in the request
-// Rebuilt? no
-app.get('/api/neighborhoods/:zip', function(request, response){
-  let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  });
+// Returns a simple array of ZIP codes
+// Rebuilt? yes
+app.get("/api/neighborhoods/list", function(request, response){
+  response.json(validZips.sort());
+})
 
-  let sql = `SELECT * FROM attributes, demographics, costs WHERE attributes.ZIP = ${request.params.zip} AND demographics.ZIP = ${request.params.zip} AND costs.ZIP = ${request.params.zip}`;
 
-  db.get(sql,[],(err, row) => {
-    if (err) {
-      throw err;
-    }
-    zipHolder = [];
-    zipHolder.push({
-      "zip-code":row.ZIP,
-      "description":row.Description,
-      "units":{
-        "unitsAll":row.UnitsAll,
-        "units2019":row.Units2019,
-        "units2018":row.Units2018,
-        "units2017":row.Units2017,
-        "units2016":row.Units2016,
-        "units2015":row.Units2015,
-        "units2014":row.Units2014,
-        "units2013":row.Units2013
-      },
-      "demographics":{
-        "population":row.Population,
-        "white":row.White,
-        "whiteNonHispanic":row.White_Non_Hispanic,
-        "black":row.Black,
-        "nativeAmerican":row.Native_American,
-        "asian":row.Asian,
-        "hawaiianPacific":row.Hawaiian_Pacific,
-        "other":row.Other,
-        "twoOrMore":row.Two_Or_More,
-        "twoOrMoreOther":row.Two_Or_More_Other,
-        "twoOrMoreNotOther":row.Two_Or_More_Not_Other,
-        "percentWhite":row.Percent_White_Non_Hispanic,
-        "percentMinority":row.Percent_Minority
-      },
-      "costs":{
-        "medianIncome":row.MedIncome,
-        "medianHousingCost":row.MedHousingCost,
-        "percentage":row.Percentage
-      }
-    });
+// Returns ZIP information using the param in the request. Same as /neighborhoods but just one ZIP
+// Rebuilt? yes
+app.get("/api/neighborhoods/:zip", async function (request, response) {
+  let zipData = []
+  
+  let zipDocs = await firestore.collection("projects").doc(request.params.zip).collection("attributes").listDocuments();
 
-    response.json(zipHolder);
-  });
+  docPromises = []
+  const getDoc = (doc, array) => new Promise(resolve => {
+    doc.get().then(docSnapshot => {
+      array.push(docSnapshot.data())
+    }).then(() => {
+      resolve();
+    })
+  })
 
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  });
-});
+  for (let doc of zipDocs){
+    docPromises.push(getDoc(doc, zipData))
+  }
+
+  Promise.all(docPromises).then(() => {
+    return response.json(zipData);
+  })
+})
 
 
 // Use for maps
 // Rebuilt? yes
 app.get("/api/neighborhoods/:zip/geojson", async function(request, response){
-  var date = new Date();
-  date.setHours(date.getHours() + 1); // 1 hour from now
-
-  await storage.bucket("add-it-up-290116-data").file(`geojson/${request.params.zip}.geojson`).getSignedUrl({
-    action:"read",
-    expires:date.toISOString(),
-  }).then(data => {
-    url = data[0];
-    return response.redirect(url);
-  })
-})
+  await getUrlForFileFromBucket(`geojson/${request.params.zip}.geojson`).then(fileUrl => {
+    response.redirect(fileUrl);
+  });
+});
 
 
 // Not sure what this is used for
@@ -272,12 +249,14 @@ app.get("/api/cityGeoJSON", function(request, response){
 
 
 // Return shape of the city limits as a polygon
-// Rebuilt? no
-app.get("/api/cityShape", function(request, response){
-  cityGeo = fs.readFileSync("geojson/LA_City_simplified.geojson");
+// Rebuilt? yes
+app.get("/api/cityShape", async function(request, response){
+  cityGeo = fs.readFileSync();
   cityGeo = JSON.parse(cityGeo);
 
-  return response.json(cityGeo);
+  await getUrlForFileFromBucket("geojson/LA_City_simplified.geojson").then(fileUrl => {
+    return response.redirect(fileUrl)
+  })
 });
 
 
@@ -296,40 +275,24 @@ app.get("/api/cityGeoJSON/:zip", function(request, response){
 
 
 // Return all projects for one ZIP code
-// Rebuilt? no
-app.get('/api/projects/:zip', function(req, res){
-  let db = new sqlite3.Database('permit_data.db', sqlite3.OPEN_READONLY, (err) => {
-    if (err) {
-      return console.error(err.message);
+// Rebuilt? yes
+app.get('/api/projects/:zip', async function(request, response){
+  let zipData = {}
+
+  firestore.collection("projects").doc(request.params.zip).listCollections().then(async years => {
+    for (let year of years){
+      zipData[year.id] = []
+
+      await year.listDocuments().then(projects => {
+        for (let project of projects){
+          project.get().then(snapshot => {
+            zipData[year.id].push(snapshot.data())
+          })
+        }
+      })
     }
-  });
-
-  let sql = `SELECT * FROM projects WHERE ZIP = ${req.params.zip} ORDER BY Date DESC`;
-
-  db.all(sql,[],(err, rows) => {
-    if (err) {
-      throw err;
-    }
-    projectsHolder = [];
-    rows.forEach((row) => {
-      projectsHolder.push({
-        "zip-code":row.ZIP,
-        "date":row.Date,
-        "type":row.Type,
-        "address":row.Address,
-        "units":row.Units,
-        "stories":row.Stories,
-        "description":row.Description
-      });
-    });
-
-    res.json(projectsHolder);
-  });
-
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message);
-    }
+  }).then(() => {
+    return response.json(zipData);
   });
 });
 
