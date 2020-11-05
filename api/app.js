@@ -1,22 +1,15 @@
-const axios = require('axios');
-
 const {Firestore} = require('@google-cloud/firestore');
 const {Storage} = require("@google-cloud/storage");
 
 const firestore = new Firestore();
 const storage = new Storage();
 
-let compression = require("compression");
 let express = require("express");
 let app = express();
 var bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded());
 
-const { check, validationResult } = require('express-validator/check');
-const { sanitizeBody } = require('express-validator/filter');
-
 var fs = require('fs');
-const { zip } = require('d3');
 
 require('dotenv').load();
 
@@ -221,31 +214,31 @@ app.get("/api/neighborhoods/:zip/geojson", async function(request, response){
 
 // Not sure what this is used for
 // Rebuilt? no
-app.get("/api/cityGeoJSON", function(request, response){
-  var zipCodeInfo;
+// app.get("/api/cityGeoJSON", function(request, response){
+//   var zipCodeInfo;
 
-  axios.get("/api/neighborhoods").then(function(results){
-    zipCodeInfo = results.data;
+//   axios.get("/api/neighborhoods").then(function(results){
+//     zipCodeInfo = results.data;
 
-    countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
-    countyGeo = JSON.parse(countyGeo);
+//     countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
+//     countyGeo = JSON.parse(countyGeo);
 
-    for (var i=countyGeo.features.length - 1; i >= 0; i--){
-      var currentZip = parseInt(countyGeo.features[i].properties.zipcode);
-      if(validZips.includes(currentZip)){
-        let zipInfo = results.data.find(o => o.zipCode === currentZip);
+//     for (var i=countyGeo.features.length - 1; i >= 0; i--){
+//       var currentZip = parseInt(countyGeo.features[i].properties.zipcode);
+//       if(validZips.includes(currentZip)){
+//         let zipInfo = results.data.find(o => o.zipCode === currentZip);
 
-        countyGeo.features[i].properties.description = zipInfo.description;
-        countyGeo.features[i].properties.units = zipInfo.units;
-        countyGeo.features[i].properties.costs = zipInfo.costs;
-      } else {
-        countyGeo.features.splice(i, 1)
-      }
-    }
+//         countyGeo.features[i].properties.description = zipInfo.description;
+//         countyGeo.features[i].properties.units = zipInfo.units;
+//         countyGeo.features[i].properties.costs = zipInfo.costs;
+//       } else {
+//         countyGeo.features.splice(i, 1)
+//       }
+//     }
 
-    return response.json(countyGeo);
-  })
-});
+//     return response.json(countyGeo);
+//   })
+// });
 
 
 // Return shape of the city limits as a polygon
@@ -262,93 +255,91 @@ app.get("/api/cityShape", async function(request, response){
 
 // Return ZIP code boundary for one ZIP code
 // Rebuilt? no
-app.get("/api/cityGeoJSON/:zip", function(request, response){
-  var zipCodeInfo;
+// app.get("/api/cityGeoJSON/:zip", function(request, response){
+//   var zipCodeInfo;
 
-  countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
-  countyGeo = JSON.parse(countyGeo);
+//   countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
+//   countyGeo = JSON.parse(countyGeo);
 
-  singleZIPBound = countyGeo.features.find(zip => zip.properties.zipcode == request.params.zip);
+//   singleZIPBound = countyGeo.features.find(zip => zip.properties.zipcode == request.params.zip);
 
-  return response.json(singleZIPBound);
-});
+//   return response.json(singleZIPBound);
+// });
 
 
 // Return all projects for one ZIP code
 // Rebuilt? yes
 app.get('/api/projects/:zip', async function(request, response){
-  let zipData = {}
+  let projectsList = []
 
   firestore.collection("projects").doc(request.params.zip).listCollections().then(async years => {
     for (let year of years){
-      zipData[year.id] = []
-
       await year.listDocuments().then(projects => {
         for (let project of projects){
           project.get().then(snapshot => {
-            zipData[year.id].push(snapshot.data())
+            projectsList.push(snapshot.data())
           })
         }
       })
     }
   }).then(() => {
-    return response.json(zipData);
+    return response.json(projectsList);
   });
 });
 
 
 // Saves subscriber email into database
 // Rebuilt? no
-app.post('/email/subscribe', [
-  check('email').isEmail().normalizeEmail().withMessage("That’s not a valid email address."),
-  check('zip').isLength(5).isIn(validZips).trim().withMessage("That ZIP code isn’t listed in the city of Los Angeles.")
-], function(request, response){
-  const errors = validationResult(request);
-  if (!errors.isEmpty()) {
-    // return response.status(422).json({ errors: errors.array() });
-    return response.status(422).render('home', {
-      layout: false,
-      errors: errors.array()
-    });
-  }
+// app.post('/email/subscribe', [
+//   check('email').isEmail().normalizeEmail().withMessage("That’s not a valid email address."),
+//   check('zip').isLength(5).isIn(validZips).trim().withMessage("That ZIP code isn’t listed in the city of Los Angeles.")
+// ], function(request, response){
+//   const errors = validationResult(request);
+//   if (!errors.isEmpty()) {
+//     // return response.status(422).json({ errors: errors.array() });
+//     return response.status(422).render('home', {
+//       layout: false,
+//       errors: errors.array()
+//     });
+//   }
 
-  console.log(request.body.email);
-  console.log(request.body.zip);
+//   console.log(request.body.email);
+//   console.log(request.body.zip);
 
-  let db = new sqlite3.Database('email.db', (err) => {
-    if (err) {
-      return console.error(err.message);
-    } else {
-      console.log("Connected to database successfully.")
-    }
-  });
+//   let db = new sqlite3.Database('email.db', (err) => {
+//     if (err) {
+//       return console.error(err.message);
+//     } else {
+//       console.log("Connected to database successfully.")
+//     }
+//   });
 
-// Add to both email address table and table of emails and ZIP codes
-  db.serialize(() => {
-    db.run(`INSERT OR IGNORE INTO emails(Email_Address) VALUES('${request.body.email}')`, [], function(error){
-      if(error){
-        return console.log(error.message);
-      } else {
-        console.log("emails table worked")
-      }
-    });
+// // Add to both email address table and table of emails and ZIP codes
+//   db.serialize(() => {
+//     db.run(`INSERT OR IGNORE INTO emails(Email_Address) VALUES('${request.body.email}')`, [], function(error){
+//       if(error){
+//         return console.log(error.message);
+//       } else {
+//         console.log("emails table worked")
+//       }
+//     });
 
-    db.run(`INSERT OR REPLACE INTO email_zip_match(email, ZIP) VALUES('${request.body.email}', ${request.body.zip})`, [], function(error){
-      if(error){
-        return console.log(error.message);
-      } else {
-        console.log("email_zip_match table worked")
-      }
-    });
-  });
+//     db.run(`INSERT OR REPLACE INTO email_zip_match(email, ZIP) VALUES('${request.body.email}', ${request.body.zip})`, [], function(error){
+//       if(error){
+//         return console.log(error.message);
+//       } else {
+//         console.log("email_zip_match table worked")
+//       }
+//     });
+//   });
 
-  db.close((err) => {
-    if (err) {
-      return console.error(err.message);
-    }
-  });
+//   db.close((err) => {
+//     if (err) {
+//       return console.error(err.message);
+//     }
+//   });
 
-  response.redirect("../subscribe-success.html");
-});
+//   response.redirect("../subscribe-success.html");
+// });
 
 app.listen(process.env.PORT || 8000);
