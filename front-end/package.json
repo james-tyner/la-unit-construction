@@ -1,0 +1,19 @@
+{
+  "name": "front-end",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/axios": "^5.12.2",
+    "@turf/turf": "^5.1.6",
+    "core-js": "^3.6.5",
+    "mapbox-gl": "^1.12.0",
+    "nuxt": "^2.14.6"
+  },
+  "devDependencies": {}
+}

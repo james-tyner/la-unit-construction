@@ -2,14 +2,21 @@ const {Firestore} = require('@google-cloud/firestore');
 const {Storage} = require("@google-cloud/storage");
 
 const firestore = new Firestore();
-const storage = new Storage();
+// const storage = new Storage();
+const storage = new Storage({keyFilename: "add-it-up-290116-dfa41b07eff0.json"})
 
 let express = require("express");
 let app = express();
-var bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded());
+let cors = require("cors");
 
-var fs = require('fs');
+app.use(cors({
+  origin:[
+    "http://localhost:8888",
+    "https://additup.jamestyner.com"
+  ]
+}))
+
+const fetch = require('node-fetch');
 
 require('dotenv').load();
 
@@ -135,13 +142,16 @@ async function getUrlForFileFromBucket(path){
   var date = new Date();
   date.setHours(date.getHours() + 1); // 1 hour from now
 
+  let url = "";
+
   await storage.bucket("add-it-up-290116-data").file(path).getSignedUrl({
     action: "read",
     expires: date.toISOString(),
   }).then(data => {
     url = data[0];
-    return url;
   })
+
+  return url;
 }
 
 
@@ -198,18 +208,25 @@ app.get("/api/neighborhoods/:zip", async function (request, response) {
   }
 
   Promise.all(docPromises).then(() => {
-    return response.json(zipData);
+    let mergedData = Object.assign(...zipData)
+
+    return response.json(mergedData);
   })
 })
 
 
-// Use for maps
-// Rebuilt? yes
-app.get("/api/neighborhoods/:zip/geojson", async function(request, response){
-  await getUrlForFileFromBucket(`geojson/${request.params.zip}.geojson`).then(fileUrl => {
-    response.redirect(fileUrl);
-  });
-});
+// This endpoint shouldn’t be necessary… you can add places to the map one by one as part of generating the page
+// // Use for maps
+// // Rebuilt? yes
+// app.get("/api/geojson/:zip", async function(request, response){
+  // await getUrlForFileFromBucket(`geojson/${request.params.zip}.geojson`).then(async url => {
+  //   console.log(url);
+
+  //   const geojson = await fetch(url).then(res => res.json());
+
+  //   response.json(geojson);
+  // });
+// });
 
 
 // Not sure what this is used for
@@ -243,28 +260,28 @@ app.get("/api/neighborhoods/:zip/geojson", async function(request, response){
 
 // Return shape of the city limits as a polygon
 // Rebuilt? yes
-app.get("/api/cityShape", async function(request, response){
-  cityGeo = fs.readFileSync();
-  cityGeo = JSON.parse(cityGeo);
+app.get("/api/boundary/city", async function(request, response){
+  await getUrlForFileFromBucket(`geojson/LA_City_simplified.geojson`).then(async url => {
+    const geojson = await fetch(url).then(res => res.json());
 
-  await getUrlForFileFromBucket("geojson/LA_City_simplified.geojson").then(fileUrl => {
-    return response.redirect(fileUrl)
-  })
+    console.log(geojson);
+
+    response.json(geojson);
+  });
 });
 
 
 // Return ZIP code boundary for one ZIP code
-// Rebuilt? no
-// app.get("/api/cityGeoJSON/:zip", function(request, response){
-//   var zipCodeInfo;
+// Rebuilt? yes
+app.get("/api/boundary/:zip", async function(request, response){
+  await getUrlForFileFromBucket(`geojson/LA_County.geojson`).then(async url => {
+    const geojson = await fetch(url).then(res => res.json());
 
-//   countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
-//   countyGeo = JSON.parse(countyGeo);
+    singleZIPBound = geojson.features.find(zip => zip.properties.zipcode == request.params.zip);
 
-//   singleZIPBound = countyGeo.features.find(zip => zip.properties.zipcode == request.params.zip);
-
-//   return response.json(singleZIPBound);
-// });
+    return response.json(singleZIPBound);
+  });
+});
 
 
 // Return all projects for one ZIP code
