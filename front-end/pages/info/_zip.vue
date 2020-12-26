@@ -23,17 +23,17 @@
                 <div id="map"></div>
             </div>
 
-            <div id="map-controls">
-                    <div class="year selected" value="all">All</div>
-                    <div class="year" value="2020">2020</div>
-                    <div class="year" value="2019">2019</div>
-                    <div class="year" value="2018">2018</div>
-                    <div class="year" value="2017">2017</div>
-                    <div class="year" value="2016">2016</div>
-                    <div class="year" value="2015">2015</div>
-                    <div class="year" value="2014">2014</div>
-                    <div class="year" value="2013">2013</div>
-                </div>
+            <!-- <div id="map-controls">
+                <div class="year selected" value="all">All</div>
+                <div class="year" value="2020">2020</div>
+                <div class="year" value="2019">2019</div>
+                <div class="year" value="2018">2018</div>
+                <div class="year" value="2017">2017</div>
+                <div class="year" value="2016">2016</div>
+                <div class="year" value="2015">2015</div>
+                <div class="year" value="2014">2014</div>
+                <div class="year" value="2013">2013</div>
+            </div> -->
         </main>
 
         <div id="projects-list">
@@ -80,15 +80,6 @@ export default {
             projects,
             zipBoundaries,
             center
-        }
-    },
-    generate:{
-        async routes(){
-            await fetch(`${process.env.apiUrl}/api/neighborhoods/list`).then(res => {
-                return res.data.map(zip => {
-                    return `/info/${zip}`
-                })
-            })
         }
     },
     head(){

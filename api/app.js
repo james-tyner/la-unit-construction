@@ -215,49 +215,6 @@ app.get("/api/neighborhoods/:zip", async function (request, response) {
 })
 
 
-// This endpoint shouldn’t be necessary… you can add places to the map one by one as part of generating the page
-// // Use for maps
-// // Rebuilt? yes
-// app.get("/api/geojson/:zip", async function(request, response){
-  // await getUrlForFileFromBucket(`geojson/${request.params.zip}.geojson`).then(async url => {
-  //   console.log(url);
-
-  //   const geojson = await fetch(url).then(res => res.json());
-
-  //   response.json(geojson);
-  // });
-// });
-
-
-// Not sure what this is used for
-// Rebuilt? no
-// app.get("/api/cityGeoJSON", function(request, response){
-//   var zipCodeInfo;
-
-//   axios.get("/api/neighborhoods").then(function(results){
-//     zipCodeInfo = results.data;
-
-//     countyGeo = fs.readFileSync(`geojson/LA_County.geojson`);
-//     countyGeo = JSON.parse(countyGeo);
-
-//     for (var i=countyGeo.features.length - 1; i >= 0; i--){
-//       var currentZip = parseInt(countyGeo.features[i].properties.zipcode);
-//       if(validZips.includes(currentZip)){
-//         let zipInfo = results.data.find(o => o.zipCode === currentZip);
-
-//         countyGeo.features[i].properties.description = zipInfo.description;
-//         countyGeo.features[i].properties.units = zipInfo.units;
-//         countyGeo.features[i].properties.costs = zipInfo.costs;
-//       } else {
-//         countyGeo.features.splice(i, 1)
-//       }
-//     }
-
-//     return response.json(countyGeo);
-//   })
-// });
-
-
 // Return shape of the city limits as a polygon
 // Rebuilt? yes
 app.get("/api/boundary/city", async function(request, response){

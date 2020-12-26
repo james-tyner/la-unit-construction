@@ -46,5 +46,14 @@ export default {
   env:{
     apiUrl: process.env.API_URL,
     mapboxApiKey: process.env.MAPBOX_API_KEY
+  },
+  generate:{
+      async routes(){
+          await fetch(`${process.env.apiUrl}/api/neighborhoods/list`).then(res => {
+              return res.data.map(zip => {
+                  return `/info/${zip}`
+              })
+          })
+      }
   }
 }
