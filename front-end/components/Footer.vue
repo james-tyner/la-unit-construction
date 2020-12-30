@@ -5,7 +5,7 @@
         <!-- <br>
         <small>Metro Rail station data comes from the <a href="https://developer.metro.net/introduction/gis-data/download-gis-data/">Los Angeles County Metropolitan Transportation Authority</a>.</small> -->
 
-        <p>Demographic data (including housing costs and median income) comes from the US Census Bureau 2017 American Communities Survey.</p>
+        <p>Demographic data (including housing costs and median income) comes from the US Census Bureau 2019 American Communities Survey 5-year estimates.</p>
         <!-- <br>
         <small>For weekly emails: Your email address will be stored on a secure server. Emails are sent via SendGrid, an industry-standard tool, over an encrypted connection.</small> -->
 

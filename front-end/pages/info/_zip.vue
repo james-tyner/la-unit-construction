@@ -12,11 +12,10 @@
 
                 <hr>
 
-                <h3>Number <span class="label">population</span></h3>
-                <h3>Number <span class="label">minority</span></h3>
-                <h3>Number <span class="label">of income spent on housing</span></h3>
-                <h3>Number <span class="label">median income</span></h3>
-                <h3>Number <span class="label">monthly housing cost</span></h3>
+                <h3>{{commaSeparated(attributes.total_population)}} <span class="label">population</span></h3>
+                <h3>{{attributes.minority_percentage}}% <span class="label">minority</span></h3>
+                <h3>${{commaSeparated(attributes.median_household_income)}} <span class="label">median household income</span></h3>
+                <h3>${{commaSeparated(attributes.median_gross_rent)}} <span class="label">median rent</span></h3>
             </div>
 
             <div id="map-container">
