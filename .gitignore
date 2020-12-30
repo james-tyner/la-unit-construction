@@ -46,3 +46,15 @@ MANIFEST
 .vscode*
 
 add-it-up-290116-dfa41b07eff0.json
+data/2019-acs-data/Demographic and Housing Estimates.json/ACSDP5Y2019.DP05_data_with_overlays_2020-12-29T145247.csv
+data/2019-acs-data/Demographic and Housing Estimates.json/ACSDP5Y2019.DP05_metadata_2020-12-29T145247.csv
+data/2019-acs-data/Demographic and Housing Estimates.json/ACSDP5Y2019.DP05_table_title_2020-12-29T145247.txt
+data/2019-acs-data/Median Income in the Past 12 Months.json/ACSST5Y2019.S1903_data_with_overlays_2020-12-29T214204.csv
+data/2019-acs-data/Median Income in the Past 12 Months.json/ACSST5Y2019.S1903_metadata_2020-12-29T214204.csv
+data/2019-acs-data/Median Income in the Past 12 Months.json/ACSST5Y2019.S1903_table_title_2020-12-29T214204.txt
+data/2019-acs-data/Selected Housing Characteristics.json/ACSDP5Y2019.DP04_data_with_overlays_2020-12-29T213931.csv
+data/2019-acs-data/Selected Housing Characteristics.json/ACSDP5Y2019.DP04_metadata_2020-12-29T213931.csv
+data/2019-acs-data/Selected Housing Characteristics.json/ACSDP5Y2019.DP04_table_title_2020-12-29T213931.txt
+data/programs/census_data/demographic.csv
+data/programs/census_data/housing.csv
+data/programs/census_data/median-income.csv
