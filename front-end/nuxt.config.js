@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -54,10 +56,10 @@ export default {
   },
   generate:{
     async routes(){
-      await fetch(`${process.env.apiUrl}/api/neighborhoods/list`).then(res => {
-        return res.data.map(zip => {
-            return `/info/${zip}`
-        })
+      const list = await fetch(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
+
+      return list.map(zip => {
+        return `/info/${zip}`
       })
     }
   }
