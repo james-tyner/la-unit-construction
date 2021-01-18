@@ -56,6 +56,8 @@ export default {
   },
   generate:{
     async routes(){
+      console.log(process.env.API_URL + "/api/neighborhoods/list");
+      
       const list = await fetch(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
 
       return list.map(zip => {
