@@ -45,6 +45,9 @@ nav a {
   text-decoration: none;
   color: inherit;
 }
+nav a:hover {
+  text-decoration: none;
+}
 
 footer {
   background-color: #1b2c42;
