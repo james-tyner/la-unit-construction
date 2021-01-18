@@ -6,6 +6,7 @@ export default {
   head: {
     title: 'front-end',
     meta: [
+      { name: "robots", content: "noindex" },
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }

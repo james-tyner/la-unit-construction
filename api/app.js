@@ -158,37 +158,43 @@ async function getUrlForFileFromBucket(path){
 // Returns array of ZIP objects containing neighborhood details
 // Rebuilt? yes
 // Note: this endpoint works, but it's VERY slow
-// app.get('/api/neighborhoods', async function(request, response){
-//   zipHolder = {}
+app.get('/api/neighborhoods', async function(request, response){
+  if (process.env.LOCAL){
+    console.log("Testing locally");
+    // FOR TESTING ONLY
+    let neighborhoodFile = require("../data/tester-neighborhoods-data.json");
 
-//   let zips = await firestore.collection("projects").listDocuments();
-//   let zipName = ""
+    response.json(neighborhoodFile);
 
-//   for (let zip of zips){
-//     zipName = zip.id;
+  } else {
+    console.log("Querying Firebase");
 
-//     let zipData = {}
-//     let zipDocs = await zip.collection("attributes").listDocuments();
+    zipHolder = {}
 
-//     zipDocs.forEach(docRef => {
-//       docRef.get().then(docSnapshot => {
-//         zipData[docSnapshot.id] = docSnapshot.data();
-//       })
-//     })
+    let zips = await firestore.collection("projects").listDocuments();
+    let zipName = ""
 
-//     zipHolder[zipName] = zipData;
-//   }
+    for (let zip of zips){
+      zipName = zip.id;
 
-//   delete zipHolder["summary"];
+      let zipData = {}
+      let zipDocs = await zip.collection("attributes").listDocuments();
 
-//   response.json(zipHolder);
-// });
-// FOR TESTING ONLY
-let neighborhoodFile = require("../data/tester-neighborhoods-data.json");
-app.get("/api/neighborhoods", async function(request, response){
-  // neighborhoodData = JSON.parse(neighborhoodFile);
-  response.json(neighborhoodFile);
-})
+      zipDocs.forEach(docRef => {
+        docRef.get().then(docSnapshot => {
+          zipData[docSnapshot.id] = docSnapshot.data();
+        })
+      })
+
+      zipHolder[zipName] = zipData;
+    }
+
+    delete zipHolder["summary"];
+
+    response.json(zipHolder);
+  }
+});
+
 
 // Return summary data for the whole city
 // Rebuilt? yes
