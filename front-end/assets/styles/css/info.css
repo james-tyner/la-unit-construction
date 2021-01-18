@@ -125,7 +125,13 @@
 #info-container #projects-list {
   grid-row: 2/3;
   grid-column: 2/3;
-  padding: 20px 0 40px 0;
+  padding: 20px 5vw 40px 0;
+}
+#info-container #projects-list h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  opacity: 0.92;
+  opacity: 1;
 }
 #info-container #projects-list table {
   width: 100%;

@@ -155,30 +155,50 @@ async function getUrlForFileFromBucket(path){
 }
 
 
-// Returns array of ZIP objects containing neighborhood descriptions
+// Returns array of ZIP objects containing neighborhood details
 // Rebuilt? yes
 // Note: this endpoint works, but it's VERY slow
-app.get('/api/neighborhoods', async function(request, response){
-  zipHolder = []
+// app.get('/api/neighborhoods', async function(request, response){
+//   zipHolder = {}
 
-  let zips = await firestore.collection("projects").listDocuments();
+//   let zips = await firestore.collection("projects").listDocuments();
+//   let zipName = ""
 
-  for (let zip of zips){
-    let zipData = []
-    let zipDocs = await zip.collection("attributes").listDocuments();
+//   for (let zip of zips){
+//     zipName = zip.id;
 
-    zipDocs.forEach(docRef => {
-      docRef.get().then(docSnapshot => {
-        zipData.push(docSnapshot.data())
-      })
-    })
+//     let zipData = {}
+//     let zipDocs = await zip.collection("attributes").listDocuments();
 
-    zipHolder.push(zipData)
-  }
+//     zipDocs.forEach(docRef => {
+//       docRef.get().then(docSnapshot => {
+//         zipData[docSnapshot.id] = docSnapshot.data();
+//       })
+//     })
 
-  response.json(zipHolder);
-});
+//     zipHolder[zipName] = zipData;
+//   }
 
+//   delete zipHolder["summary"];
+
+//   response.json(zipHolder);
+// });
+// FOR TESTING ONLY
+let neighborhoodFile = require("../data/tester-neighborhoods-data.json");
+app.get("/api/neighborhoods", async function(request, response){
+  // neighborhoodData = JSON.parse(neighborhoodFile);
+  response.json(neighborhoodFile);
+})
+
+// Return summary data for the whole city
+// Rebuilt? yes
+app.get("/api/neighborhoods/summary", async function (request, response){
+  let summaryData = await firestore.collection("projects").doc("summary").get().then(docSnapshot => {
+    return docSnapshot.data();
+  })
+
+  response.json(summaryData);
+})
 
 // Returns a simple array of ZIP codes
 // Rebuilt? yes
@@ -221,9 +241,25 @@ app.get("/api/boundary/city", async function(request, response){
   await getUrlForFileFromBucket(`geojson/LA_City_simplified.geojson`).then(async url => {
     const geojson = await fetch(url).then(res => res.json());
 
-    console.log(geojson);
-
     response.json(geojson);
+  });
+});
+
+
+// Return ZIP code boundaries for all ZIPs in city
+// Rebuilt? yes
+app.get("/api/boundary/zips", async function(request, response){
+  await getUrlForFileFromBucket(`geojson/LA_County.geojson`).then(async url => {
+    const geojson = await fetch(url).then(res => res.json());
+
+    let filteredBoundaries = geojson.features.filter(zip => validZips.includes(Number(zip.properties.zipcode)));
+
+    let filteredGeojson = {
+      "type":"FeatureCollection",
+      "features":filteredBoundaries
+    }
+
+    return response.json(filteredGeojson);
   });
 });
 
@@ -260,60 +296,5 @@ app.get('/api/projects/:zip', async function(request, response){
     return response.json(projectsList);
   });
 });
-
-
-// Saves subscriber email into database
-// Rebuilt? no
-// app.post('/email/subscribe', [
-//   check('email').isEmail().normalizeEmail().withMessage("That’s not a valid email address."),
-//   check('zip').isLength(5).isIn(validZips).trim().withMessage("That ZIP code isn’t listed in the city of Los Angeles.")
-// ], function(request, response){
-//   const errors = validationResult(request);
-//   if (!errors.isEmpty()) {
-//     // return response.status(422).json({ errors: errors.array() });
-//     return response.status(422).render('home', {
-//       layout: false,
-//       errors: errors.array()
-//     });
-//   }
-
-//   console.log(request.body.email);
-//   console.log(request.body.zip);
-
-//   let db = new sqlite3.Database('email.db', (err) => {
-//     if (err) {
-//       return console.error(err.message);
-//     } else {
-//       console.log("Connected to database successfully.")
-//     }
-//   });
-
-// // Add to both email address table and table of emails and ZIP codes
-//   db.serialize(() => {
-//     db.run(`INSERT OR IGNORE INTO emails(Email_Address) VALUES('${request.body.email}')`, [], function(error){
-//       if(error){
-//         return console.log(error.message);
-//       } else {
-//         console.log("emails table worked")
-//       }
-//     });
-
-//     db.run(`INSERT OR REPLACE INTO email_zip_match(email, ZIP) VALUES('${request.body.email}', ${request.body.zip})`, [], function(error){
-//       if(error){
-//         return console.log(error.message);
-//       } else {
-//         console.log("email_zip_match table worked")
-//       }
-//     });
-//   });
-
-//   db.close((err) => {
-//     if (err) {
-//       return console.error(err.message);
-//     }
-//   });
-
-//   response.redirect("../subscribe-success.html");
-// });
 
 app.listen(process.env.PORT || 8000);

@@ -1,5 +1,6 @@
 @import 'mixins/colors';
 @import 'mixins/font-weights';
+@import 'mixins/font-styles';
 
 #info-container {
     display:grid;
@@ -36,15 +37,11 @@
             }
 
             h1 {
-                font-size:3rem;
-                opacity:0.92;
-                font-weight:$extrabold;
+                @include super-heading;
             }
 
             h2 {
-                font-size:1.75rem;
-                font-weight:$bold;
-                opacity:0.92;
+                @include primary-subhead;
 
                 &#neighborhood-name {
                     opacity:0.65;
@@ -53,8 +50,7 @@
             }
 
             h3 {
-                font-weight:$semibold;
-                font-size:1.25rem;
+                @include smaller-h3;
 
                 &:not(:first-of-type){
                     margin-top:0.75rem;
@@ -65,8 +61,7 @@
                 }
 
                 .label {
-                    font-weight:$medium;
-                    font-size:1rem;
+                    @include label;
                 }
             }
         }
@@ -154,7 +149,12 @@
     #projects-list {
         grid-row:2 / 3;
         grid-column:2 / 3;
-        padding:20px 0 40px 0;
+        padding:20px 5vw 40px 0;
+
+        h2 {
+            @include primary-subhead;
+            opacity:1;
+        }
 
         table {
             width:100%;

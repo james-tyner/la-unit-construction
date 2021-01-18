@@ -1,6 +1,6 @@
 <template>
     <nav>
-        <h1>Add it up.</h1>
+        <nuxt-link to="/"><h1>Add it up.</h1></nuxt-link>
     </nav>
 </template>
 

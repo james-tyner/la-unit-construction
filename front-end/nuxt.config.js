@@ -34,7 +34,12 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'bootstrap-vue/nuxt'
   ],
+
+  bootstrapVue:{
+    components:["BTable", "BPagination"]
+  },
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
@@ -48,12 +53,12 @@ export default {
     mapboxApiKey: process.env.MAPBOX_API_KEY
   },
   generate:{
-      async routes(){
-          await fetch(`${process.env.apiUrl}/api/neighborhoods/list`).then(res => {
-              return res.data.map(zip => {
-                  return `/info/${zip}`
-              })
-          })
-      }
+    async routes(){
+      await fetch(`${process.env.apiUrl}/api/neighborhoods/list`).then(res => {
+        return res.data.map(zip => {
+            return `/info/${zip}`
+        })
+      })
+    }
   }
 }

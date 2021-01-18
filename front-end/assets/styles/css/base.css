@@ -41,6 +41,10 @@ nav h1 {
   font-size: 1.5rem;
   margin: 0;
 }
+nav a {
+  text-decoration: none;
+  color: inherit;
+}
 
 footer {
   background-color: #1b2c42;

@@ -37,24 +37,16 @@
 
         <div id="projects-list">
             <h2>All Projects</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Address</th>
-                        <th>Units</th>
-                        <th>Stories</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="project in projects" :key="project.pcis_permit">
-                        <td>{{humanDate(project.date._seconds * 1000)}}</td>
-                        <td>{{project.address}}</td>
-                        <td>{{commaSeparated(project.units)}}</td>
-                        <td>{{project.stories}}</td>
-                    </tr>
-                </tbody>
-            </table>
+            <b-table striped hover :items="projects" :fields="tableFields" per-page="20" :current-page="currentPage">
+                <template #cell(date)="data">
+                    {{humanDate(data.value._seconds * 1000)}}
+                </template>
+
+                <template #cell(units)="data">
+                    {{commaSeparated(data.value)}}
+                </template>
+            </b-table>
+            <b-pagination v-model="currentPage" :total-rows="rows" per-page="20" pills align="center"></b-pagination>
         </div>
     </div>
 </template>
@@ -76,9 +68,41 @@ export default {
         return {
             zip:params.zip,
             attributes,
-            projects,
+            projects:projects.sort((a,b) => a.date._seconds < b.date._seconds),
             zipBoundaries,
-            center
+            center,
+            tableFields:[
+                {
+                    key:'date',
+                    sortable:true,
+                    label:"Date"
+                },
+                {
+                    key:"address",
+                    sortable:false,
+                    label:"Address"
+                },
+                {
+                    key:"units",
+                    sortable:true,
+                    label:"Units"
+                },
+                {
+                    key:"stories",
+                    sortable:true,
+                    label:"Stories"
+                }
+            ]
+        }
+    },
+    data(){
+        return {
+            currentPage:1
+        }
+    },
+    computed:{
+        rows(){
+            return this.projects.length
         }
     },
     head(){
@@ -117,8 +141,8 @@ export default {
         const mapboxgl = require('mapbox-gl');  
 
         const map = new mapboxgl.Map({
-        accessToken:process.env.mapboxApiKey,
-        container: 'map',
+            accessToken:process.env.mapboxApiKey,
+            container: 'map',
             style: 'mapbox://styles/mapbox/streets-v11',
         })
 
