@@ -1,4 +1,4 @@
-const axios = require("axios");
+const fetch = require("node-fetch");
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -6,7 +6,7 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'front-end',
+    title: 'Add it up.',
     meta: [
       { name: "robots", content: "noindex" },
       { charset: 'utf-8' },
@@ -52,16 +52,16 @@ export default {
   env:{
     apiUrl: process.env.API_URL,
     mapboxApiKey: process.env.MAPBOX_API_KEY
-  },
+  },/*
   generate:{
     async routes(){
       console.log(process.env.API_URL + "/api/neighborhoods/list");
       
-      const list = await axios.get(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
+      const list = await fetch(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
 
       return list.map(zip => {
         return `/info/${zip}`
       })
     }
-  }
+  }*/
 }
