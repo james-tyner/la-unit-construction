@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const axios = require("axios");
 
 export default {
   // Target (https://go.nuxtjs.dev/config-target)
@@ -35,7 +35,6 @@ export default {
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
-    '@nuxtjs/axios',
     'bootstrap-vue/nuxt'
   ],
 
@@ -58,7 +57,7 @@ export default {
     async routes(){
       console.log(process.env.API_URL + "/api/neighborhoods/list");
       
-      const list = await fetch(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
+      const list = await axios.get(process.env.API_URL + "/api/neighborhoods/list").then(res => res.json());
 
       return list.map(zip => {
         return `/info/${zip}`
